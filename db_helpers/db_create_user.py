@@ -1,26 +1,10 @@
-import json
-import os
-from pathlib import Path
 import uuid
 
 import db_helpers.db_connection as db_conn
 
-# Load our database configurations from the config file
-DB_CONFIGS = None
-parent_dir = Path(__file__).resolve().parents[1]
-config_path = os.path.join(str(parent_dir), "/config/db_config.json")
-config_file = open(config_path)
-DB_CONFIGS = json.load(config_file)
-config_file.close()
-
-# Extract the database configurations
-user = DB_CONFIGS['user']
-password = DB_CONFIGS['password']
-host = DB_CONFIGS['host']
-database = DB_CONFIGS['database']
-
-# Create a new MySqlConnection object
-sql_conn = db_conn.MySqlConnection(host, user, password, database)
+# Raised if we can't create a clientid for a new user
+class ClientCreationError(ValueError):
+    pass
 
 # Create a new user with the given clientid, clientoauth, firstname, and lastname
 def create_user(clientid, clientoauth, firstname, lastname):
@@ -38,5 +22,23 @@ def create_user(clientoauth, firstname, lastname):
     unique_clientid = uuid.uuid4()
 
     conn = db_conn.get_connection()
+    conn.connect()
+    id_found = False
+    sql = "SELECT clientid FROM users WHERE clientid = %s"
+    data = (unique_clientid)
+    result = conn.execute_select(sql, data)
+    if len(result) > 0:
+        id_found = True
+    tries = 0
+    while id_found:
+        unique_clientid = uuid.uuid4()
+        data = (unique_clientid)
+        result = conn.execute_select(sql, data)
+        if len(result) == 0:
+            id_found = False
+        tries += 1
+        if tries > 10:
+            conn.disconnect()
+            raise ClientCreationError("Unable to generate a unique clientid for the new user.")
 
     create_user(unique_clientid, clientoauth, firstname, lastname)

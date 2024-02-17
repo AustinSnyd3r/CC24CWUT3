@@ -21,3 +21,16 @@ def update_keyword_category(clientid, keyword, keywordtype):
 
     conn.execute_update(sql, data)
     conn.disconnect()
+
+# Get all keywords for a user, along with their categories
+def get_keywords(clientid):
+    conn = db_conn.MySqlConnection()
+    conn.connect()
+
+    sql = "SELECT keyword, keywordtype FROM keywords WHERE clientid = %s"
+    data = (clientid)
+
+    result = conn.execute_select(sql, data)
+    conn.disconnect()
+
+    return result
