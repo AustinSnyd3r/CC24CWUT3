@@ -44,3 +44,23 @@ def update_status(app_id, new_status):
 
     conn.execute_update(sql, data)
     conn.disconnect()
+
+def notify_update(app_id):
+    conn = db_conn.MySqlConnection()
+    conn.connect()
+
+    sql = "UPDATE applications SET has_update = 1 WHERE applicationid = %s"
+    data = (app_id)
+
+    conn.execute_update(sql, data)
+    conn.disconnect()
+
+def clear_update(app_id):
+    conn = db_conn.MySqlConnection()
+    conn.connect()
+
+    sql = "UPDATE applications SET has_update = 0 WHERE applicationid = %s"
+    data = (app_id)
+
+    conn.execute_update(sql, data)
+    conn.disconnect()

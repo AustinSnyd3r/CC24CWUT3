@@ -1,28 +1,10 @@
 from datetime import date
-import json
-import os
-from pathlib import Path
-import uuid
 
 import db_helpers.db_connection as db_conn
 
-# Load our database configurations from the config file
-DB_CONFIGS = None
-parent_dir = Path(__file__).resolve().parents[1]
-config_path = os.path.join(str(parent_dir), "/config/db_config.json")
-config_file = open(config_path)
-DB_CONFIGS = json.load(config_file)
-config_file.close()
-
-# Extract the database configurations
-user = DB_CONFIGS['user']
-password = DB_CONFIGS['password']
-host = DB_CONFIGS['host']
-database = DB_CONFIGS['database']
-
 # Creates a new application with the given company/position
 def create_app(company, position, userid):
-    conn = db_conn.MySqlConnection(host, user, password, database)
+    conn = db_conn.MySqlConnection()
     conn.connect()
 
     check_sql = "SELECT * FROM users WHERE userid = %s"
