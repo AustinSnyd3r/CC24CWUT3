@@ -17,9 +17,8 @@ class my_sql_connection:
         db_configs = None
         parent_dir = Path(__file__).resolve().parents[1]
         config_path = os.path.join(str(parent_dir), "/config/db_config.json")
-        config_file = open(config_path, "r")
-        db_configs = json.load(config_file)
-        config_file.close()
+        with open(config_path, "r") as config_file:
+            db_configs = json.load(config_file)
         # Extract the database configurations
         self.host = db_configs['host']
         self.username = db_configs['user']
@@ -50,9 +49,9 @@ class my_sql_connection:
         if not self.connection:
             print("No active connection. Please connect first.")
             return
-        
+
         # Escape characters to prevent SQL injection
-        for i in range(len(data)):
+        for i in enumerate(data):
             data[i] = self.connection.escape_string(data[i])
 
         try:
@@ -68,7 +67,7 @@ class my_sql_connection:
         if not self.connection:
             print("No active connection. Please connect first.")
             return None
-        
+
         # Escape characters to prevent SQL injection
         for i in range(len(data)):
             data[i] = self.connection.escape_string(data[i])

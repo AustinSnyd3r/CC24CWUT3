@@ -41,4 +41,4 @@ def create_user(clientoauth, firstname, lastname):
             conn.disconnect()
             raise ClientCreationError("Unable to generate a unique clientid for the new user.")
 
-    create_user(unique_clientid, clientoauth, firstname, lastname)
+    create_user(clientid = unique_clientid, clientoauth = clientoauth, firstname = firstname, lastname = lastname)
