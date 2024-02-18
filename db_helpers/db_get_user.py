@@ -20,7 +20,7 @@ def get_user_by_userid(userid):
     conn = SQLConnection()
     conn.connect()
 
-    sql = "SELECT * FROM users WHERE userid = %s"
+    sql = "SELECT * FROM users WHERE clientid = %s"
     data = userid
 
     result = conn.execute_select(sql, data)
@@ -33,7 +33,7 @@ def get_userid_by_oauth(oauth):
     conn = SQLConnection()
     conn.connect()
 
-    sql = "SELECT userid FROM users WHERE oauth = %s"
+    sql = "SELECT clientid FROM clients WHERE clientoauth = %s"
     data = oauth
 
     result = conn.execute_select(sql, data)
