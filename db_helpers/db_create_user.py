@@ -19,7 +19,7 @@ def create_user(clientoauth, firstname, lastname):
     data = unique_clientid
     data = [data]
     result = conn.execute_select(sql, data)
-    if len is not None or len(result) > 0:
+    if result is not None and len(result) > 0:
         id_found = True
     tries = 0
     while id_found:
