@@ -1,6 +1,6 @@
 from datetime import date
 
-import db_helpers.db_connection as db_conn
+import db_connection as db_conn
 
 # Creates a new application with the given company/position
 def create_app(company, position, userid):

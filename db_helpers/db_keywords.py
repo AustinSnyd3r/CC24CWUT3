@@ -1,4 +1,4 @@
-import db_helpers.db_connection as db_conn
+import db_connection as db_conn
 
 valid_keyword_types = ["NEGATIVE", "POSITIVE", "INTERVIEW", "OFFER", "REJECTED", "ACCEPTED"]
 

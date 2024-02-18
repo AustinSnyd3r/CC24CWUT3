@@ -2,7 +2,7 @@ import json
 import os
 from pathlib import Path
 
-import db_helpers.db_connection as db_conn
+import db_connection as db_conn
 
 # Get a user from their oauth token
 def get_user_by_oauth(oauth):
