@@ -21,4 +21,4 @@ jobs:
         if [ -f dependancies.txt ]; then pip install -r dependancies.txt; fi
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') --fail-under=6.0
+        pylint $(git ls-files '*.py') --fail-under=8.0
