@@ -7,17 +7,6 @@ import db_connection as db_conn
 class ClientCreationError(ValueError):
     pass
 
-'''# Create a new user with the given clientid, clientoauth, firstname, and lastname'''
-def create_user(clientid, clientoauth, firstname, lastname):
-    conn = db_conn.my_sql_connection()
-    conn.connect()
-
-    sql = "INSERT INTO users (clientid, clientoauth, firstname, lastname) VALUES (%s, %s, %s, %s)"
-    data = (clientid, clientoauth, firstname, lastname)
-
-    conn.execute_update(sql, data)
-    conn.disconnect()
-
 '''# Create a new user with a random clientid and the given clientoauth, firstname, and lastname'''
 def create_user(clientoauth, firstname, lastname):
     unique_clientid = uuid.uuid4()
