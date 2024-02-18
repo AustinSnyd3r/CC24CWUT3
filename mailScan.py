@@ -3,11 +3,9 @@
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
+from CC24CWUT3.db_helpers.db_get_user import get_userid_by_oauth
+from CC24CWUT3.db_helpers.db_keywords import get_keywords
 from db_helpers.db_create_user import create_user
-
-
-#from CC24CWUT3.db_helpers.db_create_user import create_user
-#from CC24CWUT3.db_helpers.db_keywords import get_keywords
 
 def authenticate_and_get_token():
     '''# Authenticate the user and get the token'''
@@ -32,23 +30,24 @@ def authenticate_with_token(creds):
     service = build('gmail', 'v1', credentials=creds)
 
     #get the user first/last from their gmail profile
-    first, last = getUserName(creds)
+    first, last = get_user_name(creds)
     print(first, last)
 
-    #clientSecret = creds['web']['client_secret']
-
-    #print(creds['web']['client_secret'])
     secret = creds.client_secret
     print(secret)
     if first and last:
-        create_user(secret, first, last)
+        try:
+            create_user(secret, first, last)
+        except Exception as e:
+            print(e)
+
+    #id = get_userid_by_oauth(secret)
 
     return service
 
 
-def getUserName(creds):
+def get_user_name(creds):
     """
-
     :param creds: OAuth token
     :return: strings first and last names.
     """
@@ -71,7 +70,7 @@ def getUserName(creds):
         return None, None
 
 
-def scan_gmail(service):
+def scan_gmail(service, clientId):
     '''# Use the authenticated service to scan Gmail'''
     results = service.users().messages().list(userId='me').execute()
     messages = results.get('messages', [])
@@ -83,12 +82,10 @@ def scan_gmail(service):
         msg = service.users().messages().get(userId='me', id=message['id']).execute()
         subject = msg['payload']['headers'][16]['value']  # Adjust index as needed
         snippet = msg.get('snippet', '')
-        print(determineStatus(snippet))
+        print(determine_status(snippet, clientId))
 
 
-def send_email_to_frontend(content):
-    print("This is a test")
-def determineStatus(snippet):
+def determine_status(snippet, clientId):
     """
      Determines with simple majority if message is good or bad based on keywords
     :param message:
@@ -100,6 +97,8 @@ def determineStatus(snippet):
 
     words = snippet.split()
     #TODO: Make this work with individual users keywords
+    keywords = get_keywords([clientId])
+    print(keywords)
 
     negKeywords = {"sorry", "regret", "candidate", "unfortunately"}
     posKeywords = {"congratulations", "happy", "glad", "assessment", "invite"}
@@ -122,9 +121,13 @@ if __name__ == "__main__":
     '''# Main function to run the script'''
     # Step 1: Authenticate and get the token
     auth_token = authenticate_and_get_token()
+    print(type(auth_token.client_secret))
 
+    clientId = get_userid_by_oauth([auth_token.client_secret])
     # Step 2: Authenticate with the obtained token
+    #TODO: CHANGE THIS TO TAKE IN CLIENT ID THEN GET THE THINGY ITSELF
     gmail_service = authenticate_with_token(auth_token)
 
+
     # Step 3: Use the authenticated service to scan Gmail
-    scan_gmail(gmail_service)
+    scan_gmail(gmail_service, clientId)
