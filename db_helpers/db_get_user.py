@@ -1,11 +1,15 @@
+"""
 # Purpose: Contains the functions to get a user from the database
+"""
 import json
 import os
 from pathlib import Path
 
 import db_connection as db_conn
 
+"""
 # Get a user from their oauth token
+"""
 def get_user_by_oauth(oauth):
     conn = db_conn.my_sql_connection()
     conn.connect()
@@ -18,7 +22,9 @@ def get_user_by_oauth(oauth):
 
     return result
 
+"""
 # Get a user from their userid
+"""
 def get_user_by_userid(userid):
     conn = db_conn.my_sql_connection()
     conn.connect()
@@ -31,7 +37,9 @@ def get_user_by_userid(userid):
 
     return result
 
+"""
 # Get a user's id from their oauth token
+"""
 def get_userid_by_oauth(oauth):
     conn = db_conn.my_sql_connection()
     conn.connect()

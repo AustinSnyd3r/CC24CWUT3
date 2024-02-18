@@ -1,12 +1,19 @@
+"""
 # Purpose: Used to establish a connection to a MySQL database and provide methods to execute SQL queries
+"""
 import json
 import os
 from pathlib import Path
 
 import mysql.connector
 
+"""
 # Stores an SQL connection, providing interface methods that perform SQL sanitization and error handling
+"""
 class my_sql_connection:
+    """
+    # Initializes the connection object
+    """
     def __init__(self, host, username, password, database):
         self.host = host
         self.username = username
@@ -14,6 +21,9 @@ class my_sql_connection:
         self.database = database
         self.connection = None
 
+    """
+    # Initializes the connection object
+    """
     def __init__(self):
         # Load our database configurations from the config file
         db_configs = None
@@ -28,6 +38,9 @@ class my_sql_connection:
         self.database = db_configs['database']
         self.connection = None
 
+    """
+    # Connect to the MySQL database
+    """
     def connect(self):
         try:
             self.connection = mysql.connector.connect(
@@ -40,6 +53,9 @@ class my_sql_connection:
         except mysql.connector.Error as err:
             print(f"Error: {err}")
 
+    """
+    # Disconnect from the MySQL database
+    """
     def disconnect(self):
         if self.connection:
             self.connection.close()
@@ -47,6 +63,9 @@ class my_sql_connection:
         else:
             print("No active connection to close")
 
+    """
+    # Execute an update query
+    """
     def execute_update(self, sql, data=None):
         if not self.connection:
             print("No active connection. Please connect first.")
@@ -65,6 +84,9 @@ class my_sql_connection:
         except mysql.connector.Error as err:
             print(f"Error: {err}")
 
+    """
+    # Execute a select query
+    """
     def execute_select(self, sql, data=None):
         if not self.connection:
             print("No active connection. Please connect first.")
