@@ -65,6 +65,7 @@ class MySqlConnection:
             print(f"Error: {err}")
 
     def execute_select(self, sql, data=None):
+        result = None
         '''# Execute a select query'''
         if not self.connection:
             print("No active connection. Please connect first.")
@@ -79,7 +80,6 @@ class MySqlConnection:
             cursor.execute(sql, data)
             result = cursor.fetchall()
             cursor.close()
-            return result
         except mysql.connector.Error as err:
             raise
-        
+        return result
