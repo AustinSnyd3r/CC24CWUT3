@@ -1,3 +1,4 @@
+# Purpose: Contains functions to manipulate the applications table in the database
 import json
 import os
 from pathlib import Path
@@ -45,6 +46,7 @@ def update_status(app_id, new_status):
     conn.execute_update(sql, data)
     conn.disconnect()
 
+# Set the update flag for an application
 def notify_update(app_id):
     conn = db_conn.my_sql_connection()
     conn.connect()
@@ -55,6 +57,7 @@ def notify_update(app_id):
     conn.execute_update(sql, data)
     conn.disconnect()
 
+# Clear the update flag for an application
 def clear_update(app_id):
     conn = db_conn.my_sql_connection()
     conn.connect()

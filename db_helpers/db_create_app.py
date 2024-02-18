@@ -1,3 +1,4 @@
+# Purpose: Contains the function to create a new application in the database.
 from datetime import date
 
 import db_connection as db_conn

@@ -1,9 +1,11 @@
+# Purpose: Used to establish a connection to a MySQL database and provide methods to execute SQL queries
 import json
 import os
 from pathlib import Path
 
 import mysql.connector
 
+# Stores an SQL connection, providing interface methods that perform SQL sanitization and error handling
 class my_sql_connection:
     def __init__(self, host, username, password, database):
         self.host = host

@@ -1,3 +1,4 @@
+# Purpose: Contains the function to create a new user in the database
 import uuid
 
 import db_connection as db_conn

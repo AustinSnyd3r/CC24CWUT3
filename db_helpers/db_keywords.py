@@ -1,3 +1,4 @@
+# Purpose: Contains functions to manipulate the keywords table in the database
 import db_connection as db_conn
 
 valid_keyword_types = ["NEGATIVE", "POSITIVE", "INTERVIEW", "OFFER", "REJECTED", "ACCEPTED"]
