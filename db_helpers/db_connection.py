@@ -1,33 +1,29 @@
+'''# Purpose: Used to establish a connection to a MySQL database and provide methods to execute SQL queries'''
 import json
 import os
 from pathlib import Path
 
 import mysql.connector
 
-class MySQLConnection:
-    def __init__(self, host, username, password, database):
-        self.host = host
-        self.username = username
-        self.password = password
-        self.database = database
-        self.connection = None
-
+class MySqlConnection:
+    '''# Stores an SQL connection, providing interface methods that perform SQL sanitization and error handling'''
+    ''' # Initializes the connection object '''
     def __init__(self):
         # Load our database configurations from the config file
-        DB_CONFIGS = None
+        db_configs = None
         parent_dir = Path(__file__).resolve().parents[1]
         config_path = os.path.join(str(parent_dir), "/config/db_config.json")
-        config_file = open(config_path)
-        DB_CONFIGS = json.load(config_file)
-        config_file.close()
+        with open(config_path, "r") as config_file:
+            db_configs = json.load(config_file)
         # Extract the database configurations
-        self.host = DB_CONFIGS['host']
-        self.username = DB_CONFIGS['user']
-        self.password = DB_CONFIGS['password']
-        self.database = DB_CONFIGS['database']
+        self.host = db_configs['host']
+        self.username = db_configs['user']
+        self.password = db_configs['password']
+        self.database = db_configs['database']
         self.connection = None
 
     def connect(self):
+        '''# Connect to the MySQL database'''
         try:
             self.connection = mysql.connector.connect(
                 host=self.host,
@@ -40,6 +36,7 @@ class MySQLConnection:
             print(f"Error: {err}")
 
     def disconnect(self):
+        '''# Disconnect from the MySQL database'''
         if self.connection:
             self.connection.close()
             print("Disconnected from MySQL database")
@@ -47,13 +44,14 @@ class MySQLConnection:
             print("No active connection to close")
 
     def execute_update(self, sql, data=None):
+        '''# Execute an update query'''
         if not self.connection:
             print("No active connection. Please connect first.")
             return
-        
+
         # Escape characters to prevent SQL injection
-        for i in range(len(data)):
-            data[i] = mysql.connector.escape_string(data[i])
+        for i in enumerate(data):
+            data[i] = self.connection.escape_string(data[i])
 
         try:
             cursor = self.connection.cursor()
@@ -65,13 +63,14 @@ class MySQLConnection:
             print(f"Error: {err}")
 
     def execute_select(self, sql, data=None):
+        '''# Execute a select query'''
         if not self.connection:
             print("No active connection. Please connect first.")
             return None
-        
+
         # Escape characters to prevent SQL injection
         for i in range(len(data)):
-            data[i] = mysql.connector.escape_string(data[i])
+            data[i] = self.connection.escape_string(data[i])
 
         try:
             cursor = self.connection.cursor()

@@ -1,9 +1,10 @@
-import db_helpers.db_connection as db_conn
+'''# Purpose: Contains functions to manipulate the keywords table in the database'''
+import db_connection as db_conn
 
 valid_keyword_types = ["NEGATIVE", "POSITIVE", "INTERVIEW", "OFFER", "REJECTED", "ACCEPTED"]
 
-# Add a keyword to the database
 def add_keyword(clientid, keyword, keywordtype):
+    '''# Add a keyword to the database'''
     conn = db_conn.MySqlConnection()
     conn.connect()
 
@@ -13,8 +14,8 @@ def add_keyword(clientid, keyword, keywordtype):
     conn.execute_update(sql, data)
     conn.disconnect()
 
-# Update a keyword's category
 def update_keyword_category(clientid, keyword, keywordtype):
+    '''# Update a keyword's category'''
     conn = db_conn.MySqlConnection()
     conn.connect()
 
@@ -28,8 +29,8 @@ def update_keyword_category(clientid, keyword, keywordtype):
     conn.execute_update(sql, data)
     conn.disconnect()
 
-# Get all keywords for a user, along with their categories
 def get_keywords(clientid):
+    '''# Get all keywords for a user, along with their categories'''
     conn = db_conn.MySqlConnection()
     conn.connect()
 
