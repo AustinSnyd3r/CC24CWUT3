@@ -8,7 +8,7 @@ def get_user_by_oauth(oauth):
     conn.connect()
 
     sql = "SELECT * FROM users WHERE oauth = %s"
-    data = (oauth)
+    data = oauth
 
     result = conn.execute_select(sql, data)
     conn.disconnect()
@@ -21,7 +21,7 @@ def get_user_by_userid(userid):
     conn.connect()
 
     sql = "SELECT * FROM users WHERE userid = %s"
-    data = (userid)
+    data = userid
 
     result = conn.execute_select(sql, data)
     conn.disconnect()
@@ -34,7 +34,7 @@ def get_userid_by_oauth(oauth):
     conn.connect()
 
     sql = "SELECT userid FROM users WHERE oauth = %s"
-    data = (oauth)
+    data = oauth
 
     result = conn.execute_select(sql, data)
     conn.disconnect()

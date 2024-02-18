@@ -5,7 +5,6 @@ from db_helpers.db_connection import MySqlConnection
 valid_statuses = ["WAITING", "REJECTED", "INTERVIEW", "OFFER", "ACCEPTED"]
 class InvalidStatusError(ValueError):
     '''# Status handling'''
-    pass
 
 def update_company_name(app_id, new_name):
     '''# Update a company name'''
@@ -49,7 +48,7 @@ def notify_update(app_id):
     conn.connect()
 
     sql = "UPDATE applications SET has_update = 1 WHERE applicationid = %s"
-    data = (app_id)
+    data = app_id
 
     conn.execute_update(sql, data)
     conn.disconnect()
@@ -60,7 +59,7 @@ def clear_update(app_id):
     conn.connect()
 
     sql = "UPDATE applications SET has_update = 0 WHERE applicationid = %s"
-    data = (app_id)
+    data = app_id
 
     conn.execute_update(sql, data)
     conn.disconnect()
