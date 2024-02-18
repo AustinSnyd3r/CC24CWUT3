@@ -5,7 +5,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 from CC24CWUT3.db_helpers.db_get_user import get_userid_by_oauth
-from CC24CWUT3.db_helpers.db_keywords import get_keywords
+from CC24CWUT3.db_helpers.db_keywords import get_keywords, add_keyword
 from db_helpers.db_create_user import create_user
 
 def authenticate_and_get_token():
@@ -42,8 +42,6 @@ def authenticate_with_token(creds):
             create_user(secret, first, last)
         except Exception as e:
             print(e)
-
-    #id = get_userid_by_oauth(secret)
 
     return service
 
@@ -98,23 +96,35 @@ def determine_status(snippet, clientId):
     :return:
     """
 
+    #keep track of the number of negative and positive words in email
     num_pos = 0
     num_neg = 0
 
+    #words is the words from email tokenized.
     words = snippet.split()
-    #TODO: Make this work with individual users keywords
-    keywords = get_keywords([clientId])
-    print(keywords)
 
     neg_keywords = {"sorry", "regret", "candidate", "unfortunately"}
     pos_keywords = {"congratulations", "happy", "glad", "assessment", "invite"}
+    keywords = get_keywords([clientId])
 
+    #go through the keywords from database. add them to the list
+    for keyword in keywords:
+        if keyword[1] == "POSITIVE":
+            pos_keywords.add(keyword[0])
+        else:
+            neg_keywords.add(keyword[0])
+
+    #Go through email words, inc num_neg/num_pos when appropriate
     for word in words:
         if word.lower() in neg_keywords:
             num_neg += 1
         if word.lower() in pos_keywords:
             num_pos += 1
 
+    #debug printing
+    print("Num_pos", num_pos, "numneg", num_neg)
+
+    #RETURNS (-1 : NEG, 1 : POS, 0 NEUTRAL)
     if num_neg > num_pos:
         return -1
     else:
@@ -127,13 +137,12 @@ def determine_status(snippet, clientId):
 if __name__ == "__main__":
     # Step 1: Authenticate and get the token
     auth_token = authenticate_and_get_token()
-    print(type(auth_token.client_secret))
 
+    # Step 2: get the client id. we want to reduce passing the token around
     clientId = get_userid_by_oauth([auth_token.client_secret])
-    # Step 2: Authenticate with the obtained token
-    #TODO: CHANGE THIS TO TAKE IN CLIENT ID THEN GET THE THINGY ITSELF
-    gmail_service = authenticate_with_token(auth_token)
 
+    # Step 2: Authenticate with the obtained token
+    gmail_service = authenticate_with_token(auth_token)
 
     # Step 3: Use the authenticated service to scan Gmail
     scan_gmail(gmail_service, clientId)
