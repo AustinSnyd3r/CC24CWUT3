@@ -1,6 +1,6 @@
 {
     "user" : "root",
-    "password" : "root",
+    "password" : "desmonddoss75",
     "host" : "localhost",
     "port" : "3306",
     "database" : "apptracker"
