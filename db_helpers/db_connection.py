@@ -14,17 +14,17 @@ class MySQLConnection:
 
     def __init__(self):
         # Load our database configurations from the config file
-        DB_CONFIGS = None
+        db_configs = None
         parent_dir = Path(__file__).resolve().parents[1]
         config_path = os.path.join(str(parent_dir), "/config/db_config.json")
-        config_file = open(config_path)
-        DB_CONFIGS = json.load(config_file)
+        config_file = open(config_path, "r")
+        db_configs = json.load(config_file)
         config_file.close()
         # Extract the database configurations
-        self.host = DB_CONFIGS['host']
-        self.username = DB_CONFIGS['user']
-        self.password = DB_CONFIGS['password']
-        self.database = DB_CONFIGS['database']
+        self.host = db_configs['host']
+        self.username = db_configs['user']
+        self.password = db_configs['password']
+        self.database = db_configs['database']
         self.connection = None
 
     def connect(self):
