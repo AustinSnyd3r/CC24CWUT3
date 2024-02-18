@@ -11,21 +11,22 @@ class ClientCreationError(ValueError):
 def create_user(clientoauth, firstname, lastname):
     '''# Create a new user with a random clientid and the given clientoauth, \
     firstname, and lastname'''
-    unique_clientid = uuid.uuid4()
+    unique_clientid = str(uuid.uuid4())
     conn = SQLConnection()
     conn.connect()
     id_found = False
-    sql = "SELECT clientid FROM users WHERE clientid = %s"
-    data = (unique_clientid)
+    sql = "SELECT clientid FROM clients WHERE clientid = %s"
+    data = unique_clientid
+    data = [data]
     result = conn.execute_select(sql, data)
-    if len(result) > 0:
+    if len is not None or len(result) > 0:
         id_found = True
     tries = 0
     while id_found:
-        unique_clientid = uuid.uuid4()
-        data = (unique_clientid)
+        unique_clientid = str(uuid.uuid4())
+        data = [unique_clientid]
         result = conn.execute_select(sql, data)
-        if len(result) == 0:
+        if result is None or len(result) == 0:
             id_found = False
         tries += 1
         if tries > 10:
@@ -33,10 +34,12 @@ def create_user(clientoauth, firstname, lastname):
             raise ClientCreationError("Unable to generate a unique clientid \
                                       for the new user.")
 
-    conn = SQLConnection()
-    conn.connect()
+    sql = "INSERT INTO clientids (clientid) VALUES (%s)"
+    data = unique_clientid
+    data = [data]
+    conn.execute_update(sql, data)
 
-    sql = "INSERT INTO users (clientid, clientoauth, firstname, \
+    sql = "INSERT INTO clients (clientid, clientoauth, firstname, \
         lastname) VALUES (%s, %s, %s, %s)"
     data = (unique_clientid, clientoauth, firstname, lastname)
 

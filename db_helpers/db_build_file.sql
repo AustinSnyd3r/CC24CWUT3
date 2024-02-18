@@ -19,7 +19,7 @@ USE `apptracker` ;
 -- Table `apptracker`.`clientids`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `apptracker`.`clientids` (
-  `clientid` INT NOT NULL,
+  `clientid` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`clientid`),
   UNIQUE INDEX `clientid_UNIQUE` (`clientid` ASC) VISIBLE)
 ENGINE = InnoDB;
@@ -29,7 +29,7 @@ ENGINE = InnoDB;
 -- Table `apptracker`.`clients`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `apptracker`.`clients` (
-  `clientid` INT NOT NULL,
+  `clientid` VARCHAR(45) NOT NULL,
   `clientoauth` VARCHAR(70) NOT NULL UNIQUE,
   `firstname` VARCHAR(20) NOT NULL,
   `lastname` VARCHAR(20) NOT NULL,
@@ -47,7 +47,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `apptracker`.`applications` (
   `applicationid` INT NOT NULL AUTO_INCREMENT,
-  `clientid` INT NOT NULL,
+  `clientid` VARCHAR(45) NOT NULL,
   `company` VARCHAR(30) NOT NULL,
   `position` VARCHAR(30) NOT NULL,
   `date_submitted` DATE NOT NULL,
@@ -67,7 +67,7 @@ ENGINE = InnoDB;
 -- Table `apptracker`.`keywords`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `apptracker`.`keywords` (
-  `clientid` INT NOT NULL,
+  `clientid` VARCHAR(45) NOT NULL,
   `keyword` VARCHAR(20) NOT NULL,
   `keywordtype` ENUM("NEGATIVE", "POSITIVE", "INTERVIEW", "OFFER", "REJECTED", "ACCEPTED") NOT NULL,
   PRIMARY KEY (`clientid`, `keyword`),
