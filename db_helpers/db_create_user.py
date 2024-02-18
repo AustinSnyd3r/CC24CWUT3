@@ -1,6 +1,6 @@
 import uuid
 
-import db_helpers.db_connection as db_conn
+import db_connection as db_conn
 
 # Raised if we can't create a clientid for a new user
 class ClientCreationError(ValueError):

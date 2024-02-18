@@ -1,4 +1,4 @@
-import db_helpers.db_connection as db_conn
+import db_connection as db_conn
 
 # Add a keyword to the database
 def add_keyword(clientid, keyword, keywordtype):
