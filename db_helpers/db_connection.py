@@ -81,5 +81,5 @@ class MySqlConnection:
             cursor.close()
             return result
         except mysql.connector.Error as err:
-            print(f"Error: {err}")
-            return None
+            raise
+        
