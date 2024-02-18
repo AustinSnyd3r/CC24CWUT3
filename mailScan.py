@@ -2,6 +2,10 @@
 
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+
+from CC24CWUT3.db_helpers.db_create_user import create_user
+
+
 #from CC24CWUT3.db_helpers.db_create_user import create_user
 #from CC24CWUT3.db_helpers.db_keywords import get_keywords
 
@@ -30,9 +34,9 @@ def authenticate_with_token(creds):
     #get the user first/last from their gmail profile
     first, last = getUserName(creds)
     print(first, last)
-    #if first and last:
+    if first and last:
         # TODO: This might not be right to pass as the token
-        #create_user(creds, first, last)
+        create_user(creds, first, last)
 
     return service
 
@@ -77,6 +81,8 @@ def scan_gmail(service):
         print(determineStatus(snippet))
 
 
+def send_email_to_frontend(content):
+    print("This is a test")
 def determineStatus(snippet):
     """
      Determines with simple majority if message is good or bad based on keywords
