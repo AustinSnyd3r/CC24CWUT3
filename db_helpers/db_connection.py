@@ -6,7 +6,7 @@ from pathlib import Path
 
 import mysql.connector
 
-class MySqlConnection:
+class SQLConnection:
     '''# Stores an SQL connection, providing interface 
         methods that perform SQL sanitization and error handling'''
     def __init__(self):
@@ -27,14 +27,9 @@ class MySqlConnection:
     def connect(self):
         '''# Connect to the MySQL database'''
         try:
-            self.connection = mysql.connector.connect(
-                host=self.host,
-                user=self.username,
-                password=self.password,
-                database=self.database
-            )
+            self.connection = mysql.connector.connect(user=self.username,password=self.password,host=self.host,database=self.database)
             print("Connected to MySQL database")
-        except mysql.connector.Error as err:
+        except Exception as err:
             print(f"Error: {err}")
 
     def disconnect(self):
@@ -51,10 +46,6 @@ class MySqlConnection:
             print("No active connection. Please connect first.")
             return
 
-        # Escape characters to prevent SQL injection
-        for i in enumerate(data):
-            data[i] = self.connection.escape_string(data[i])
-
         try:
             cursor = self.connection.cursor()
             cursor.execute(sql, data)
@@ -70,10 +61,6 @@ class MySqlConnection:
         if not self.connection:
             print("No active connection. Please connect first.")
             return None
-
-        # Escape characters to prevent SQL injection
-        for i in enumerate(data):
-            data[i] = self.connection.escape_string(data[i])
 
         try:
             cursor = self.connection.cursor()

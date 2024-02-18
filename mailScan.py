@@ -3,7 +3,7 @@
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-from CC24CWUT3.db_helpers.db_create_user import create_user
+from db_helpers.db_create_user import create_user
 
 
 #from CC24CWUT3.db_helpers.db_create_user import create_user
@@ -34,9 +34,14 @@ def authenticate_with_token(creds):
     #get the user first/last from their gmail profile
     first, last = getUserName(creds)
     print(first, last)
+
+    #clientSecret = creds['web']['client_secret']
+
+    #print(creds['web']['client_secret'])
+    secret = creds.client_secret
+    print(secret)
     if first and last:
-        # TODO: This might not be right to pass as the token
-        create_user(creds, first, last)
+        create_user(secret, first, last)
 
     return service
 

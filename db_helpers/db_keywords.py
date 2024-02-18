@@ -1,11 +1,11 @@
 '''# Purpose: Contains functions to manipulate the keywords table in the database'''
-from db_helpers.db_connection import MySqlConnection
+from db_helpers.db_connection import SQLConnection
 
 valid_keyword_types = ["NEGATIVE", "POSITIVE", "INTERVIEW", "OFFER", "REJECTED", "ACCEPTED"]
 
 def add_keyword(clientid, keyword, keywordtype):
     '''# Add a keyword to the database'''
-    conn = MySqlConnection()
+    conn = SQLConnection()
     conn.connect()
 
     sql = "INSERT INTO keywords (clientid, keyword, keywordtype) VALUES (%s, %s, %s)"
@@ -16,7 +16,7 @@ def add_keyword(clientid, keyword, keywordtype):
 
 def update_keyword_category(clientid, keyword, keywordtype):
     '''# Update a keyword's category'''
-    conn = MySqlConnection()
+    conn = SQLConnection()
     conn.connect()
 
     if keywordtype not in valid_keyword_types:
@@ -31,7 +31,7 @@ def update_keyword_category(clientid, keyword, keywordtype):
 
 def get_keywords(clientid):
     '''# Get all keywords for a user, along with their categories'''
-    conn = MySqlConnection()
+    conn = SQLConnection()
     conn.connect()
 
     sql = "SELECT keyword, keywordtype FROM keywords WHERE clientid = %s"
