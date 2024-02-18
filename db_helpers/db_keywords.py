@@ -1,5 +1,7 @@
 import db_helpers.db_connection as db_conn
 
+valid_keyword_types = ["NEGATIVE", "POSITIVE", "INTERVIEW", "OFFER", "REJECTED", "ACCEPTED"]
+
 # Add a keyword to the database
 def add_keyword(clientid, keyword, keywordtype):
     conn = db_conn.MySqlConnection()
@@ -15,6 +17,10 @@ def add_keyword(clientid, keyword, keywordtype):
 def update_keyword_category(clientid, keyword, keywordtype):
     conn = db_conn.MySqlConnection()
     conn.connect()
+
+    if(keywordtype not in valid_keyword_types):
+        conn.disconnect()
+        raise ValueError("Invalid keyword type provided to update_keyword_category.")
 
     sql = "UPDATE keywords SET keywordtype = %s WHERE clientid = %s AND keyword = %s"
     data = (keywordtype, clientid, keyword)
