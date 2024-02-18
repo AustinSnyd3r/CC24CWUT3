@@ -30,7 +30,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `apptracker`.`clients` (
   `clientid` INT NOT NULL,
-  `clientoauth` VARCHAR(70) NOT NULL,
+  `clientoauth` VARCHAR(70) NOT NULL UNIQUE,
   `firstname` VARCHAR(20) NOT NULL,
   `lastname` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`clientid`),
