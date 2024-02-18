@@ -1,11 +1,11 @@
 '''# Purpose: Contains the function to create a new application in the database.'''
 from datetime import date
 
-from db_helpers.db_connection import MySqlConnection
+from db_helpers.db_connection import SQLConnection
 
 def create_app(company, position, userid):
     '''# Creates a new application with the given company/position'''
-    conn = MySqlConnection()
+    conn = SQLConnection()
     conn.connect()
 
     check_sql = "SELECT * FROM users WHERE userid = %s"
