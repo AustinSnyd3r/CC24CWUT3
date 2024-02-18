@@ -9,7 +9,7 @@ def create_app(company, position, userid):
     conn.connect()
 
     check_sql = "SELECT * FROM users WHERE userid = %s"
-    check_data = (userid)
+    check_data = userid
     check_result = conn.execute_select(check_sql, check_data)
     if len(check_result) == 0:
         conn.disconnect()
