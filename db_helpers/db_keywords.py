@@ -4,7 +4,7 @@ valid_keyword_types = ["NEGATIVE", "POSITIVE", "INTERVIEW", "OFFER", "REJECTED",
 
 # Add a keyword to the database
 def add_keyword(clientid, keyword, keywordtype):
-    conn = db_conn.MySqlConnection()
+    conn = db_conn.my_sql_connection()
     conn.connect()
 
     sql = "INSERT INTO keywords (clientid, keyword, keywordtype) VALUES (%s, %s, %s)"
@@ -15,7 +15,7 @@ def add_keyword(clientid, keyword, keywordtype):
 
 # Update a keyword's category
 def update_keyword_category(clientid, keyword, keywordtype):
-    conn = db_conn.MySqlConnection()
+    conn = db_conn.my_sql_connection()
     conn.connect()
 
     if(keywordtype not in valid_keyword_types):
@@ -30,7 +30,7 @@ def update_keyword_category(clientid, keyword, keywordtype):
 
 # Get all keywords for a user, along with their categories
 def get_keywords(clientid):
-    conn = db_conn.MySqlConnection()
+    conn = db_conn.my_sql_connection()
     conn.connect()
 
     sql = "SELECT keyword, keywordtype FROM keywords WHERE clientid = %s"

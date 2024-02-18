@@ -4,7 +4,7 @@ from pathlib import Path
 
 import mysql.connector
 
-class MySQLConnection:
+class my_sql_connection:
     def __init__(self, host, username, password, database):
         self.host = host
         self.username = username

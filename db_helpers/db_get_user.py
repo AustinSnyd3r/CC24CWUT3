@@ -6,7 +6,7 @@ import db_connection as db_conn
 
 # Get a user from their oauth token
 def get_user_by_oauth(oauth):
-    conn = db_conn.MySqlConnection()
+    conn = db_conn.my_sql_connection()
     conn.connect()
 
     sql = "SELECT * FROM users WHERE oauth = %s"
@@ -18,7 +18,7 @@ def get_user_by_oauth(oauth):
     return result
 
 def get_user_by_userid(userid):
-    conn = db_conn.MySqlConnection()
+    conn = db_conn.my_sql_connection()
     conn.connect()
 
     sql = "SELECT * FROM users WHERE userid = %s"
@@ -30,7 +30,7 @@ def get_user_by_userid(userid):
     return result
 
 def get_userid_by_oauth(oauth):
-    conn = db_conn.MySqlConnection()
+    conn = db_conn.my_sql_connection()
     conn.connect()
 
     sql = "SELECT userid FROM users WHERE oauth = %s"

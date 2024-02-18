@@ -4,7 +4,7 @@ import db_connection as db_conn
 
 # Creates a new application with the given company/position
 def create_app(company, position, userid):
-    conn = db_conn.MySqlConnection()
+    conn = db_conn.my_sql_connection()
     conn.connect()
 
     check_sql = "SELECT * FROM users WHERE userid = %s"

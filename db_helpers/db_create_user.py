@@ -8,7 +8,7 @@ class ClientCreationError(ValueError):
 
 # Create a new user with the given clientid, clientoauth, firstname, and lastname
 def create_user(clientid, clientoauth, firstname, lastname):
-    conn = db_conn.MySQLConnection()
+    conn = db_conn.my_sql_connection()
     conn.connect()
 
     sql = "INSERT INTO users (clientid, clientoauth, firstname, lastname) VALUES (%s, %s, %s, %s)"
@@ -21,7 +21,7 @@ def create_user(clientid, clientoauth, firstname, lastname):
 def create_user(clientoauth, firstname, lastname):
     unique_clientid = uuid.uuid4()
 
-    conn = db_conn.MySQLConnection()
+    conn = db_conn.my_sql_connection()
     conn.connect()
     id_found = False
     sql = "SELECT clientid FROM users WHERE clientid = %s"
