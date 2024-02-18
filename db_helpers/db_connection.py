@@ -53,7 +53,7 @@ class MySQLConnection:
         
         # Escape characters to prevent SQL injection
         for i in range(len(data)):
-            data[i] = mysql.connector.escape_string(data[i])
+            data[i] = self.connection.escape_string(data[i])
 
         try:
             cursor = self.connection.cursor()
@@ -71,7 +71,7 @@ class MySQLConnection:
         
         # Escape characters to prevent SQL injection
         for i in range(len(data)):
-            data[i] = mysql.connector.escape_string(data[i])
+            data[i] = self.connection.escape_string(data[i])
 
         try:
             cursor = self.connection.cursor()
