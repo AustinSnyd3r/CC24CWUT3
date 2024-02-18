@@ -1,4 +1,5 @@
-'''# Purpose: Used to establish a connection to a MySQL database and provide methods to execute SQL queries'''
+'''# Purpose: Used to establish a connection to a
+     MySQL database and provide methods to execute SQL queries'''
 import json
 import os
 from pathlib import Path
@@ -6,13 +7,14 @@ from pathlib import Path
 import mysql.connector
 
 class MySqlConnection:
-    '''# Stores an SQL connection, providing interface methods that perform SQL sanitization and error handling'''
-    ''' # Initializes the connection object '''
+    '''# Stores an SQL connection, providing interface 
+        methods that perform SQL sanitization and error handling'''
     def __init__(self):
         # Load our database configurations from the config file
         db_configs = None
-        parent_dir = Path(__file__).resolve().parents[1]
-        config_path = os.path.join(str(parent_dir), "/config/db_config.json")
+        script_path = os.path.dirname(os.path.abspath(__file__))
+        parent_directory_path = os.path.dirname(script_path) 
+        config_path = parent_directory_path + "/config/db_config.json"
         with open(config_path, "r") as config_file:
             db_configs = json.load(config_file)
         # Extract the database configurations
@@ -69,7 +71,7 @@ class MySqlConnection:
             return None
 
         # Escape characters to prevent SQL injection
-        for i in range(len(data)):
+        for i in enumerate(data):
             data[i] = self.connection.escape_string(data[i])
 
         try:
