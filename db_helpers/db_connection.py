@@ -1,4 +1,5 @@
-'''# Purpose: Used to establish a connection to a MySQL database and provide methods to execute SQL queries'''
+'''# Purpose: Used to establish a connection to a
+     MySQL database and provide methods to execute SQL queries'''
 import json
 import os
 from pathlib import Path
@@ -6,7 +7,8 @@ from pathlib import Path
 import mysql.connector
 
 class MySqlConnection:
-    '''# Stores an SQL connection, providing interface methods that perform SQL sanitization and error handling'''
+    '''# Stores an SQL connection, providing interface 
+        methods that perform SQL sanitization and error handling'''
     ''' # Initializes the connection object '''
     def __init__(self):
         # Load our database configurations from the config file
