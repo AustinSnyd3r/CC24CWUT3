@@ -17,14 +17,14 @@ def create_user(clientoauth, firstname, lastname):
     sql = "SELECT clientid FROM users WHERE clientid = %s"
     data = (unique_clientid)
     result = conn.execute_select(sql, data)
-    if len(result) > 0:
+    if result is not None and len(result) > 0:
         id_found = True
     tries = 0
     while id_found:
         unique_clientid = uuid.uuid4()
         data = (unique_clientid)
         result = conn.execute_select(sql, data)
-        if len(result) == 0:
+        if result is not None and len(result) > 0:
             id_found = False
         tries += 1
         if tries > 10:
