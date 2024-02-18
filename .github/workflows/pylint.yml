@@ -21,4 +21,6 @@ jobs:
         if [ -f dependancies.txt ]; then pip install -r dependancies.txt; fi
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') --exit-zero
+        pylint -E -e all $(git ls-files '*.py') > pylint-report.txt
+        status=$?
+        echo &{{pylint-report.txt}}
