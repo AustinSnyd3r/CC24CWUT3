@@ -1,7 +1,7 @@
 '''# Purpose: Contains the function to create a new user in the database'''
 import uuid
 
-from db_helpers.db_connection import MySqlConnection
+from db_helpers.db_connection import SQLConnection
 
 
 class ClientCreationError(ValueError):
@@ -12,7 +12,7 @@ def create_user(clientoauth, firstname, lastname):
     '''# Create a new user with a random clientid and the given clientoauth, \
     firstname, and lastname'''
     unique_clientid = uuid.uuid4()
-    conn = MySqlConnection()
+    conn = SQLConnection()
     conn.connect()
     id_found = False
     sql = "SELECT clientid FROM users WHERE clientid = %s"
@@ -33,7 +33,7 @@ def create_user(clientoauth, firstname, lastname):
             raise ClientCreationError("Unable to generate a unique clientid \
                                       for the new user.")
 
-    conn = MySqlConnection()
+    conn = SQLConnection()
     conn.connect()
 
     sql = "INSERT INTO users (clientid, clientoauth, firstname, \
