@@ -3,7 +3,7 @@ import json
 import os
 from pathlib import Path
 
-from CC24CWUT3.db_helpers.db_connection import MySqlConnection
+from db_helpers.db_connection import MySqlConnection
 
 valid_statuses = ["WAITING", "REJECTED", "INTERVIEW", "OFFER", "ACCEPTED"]
 class InvalidStatusError(ValueError):

@@ -1,7 +1,7 @@
 '''# Purpose: Contains the function to create a new user in the database'''
 import uuid
 
-from CC24CWUT3.db_helpers.db_connection import MySqlConnection
+from db_helpers.db_connection import MySqlConnection
 
 class ClientCreationError(ValueError):
     '''# Raised if we can't create a clientid for a new user'''

@@ -1,7 +1,7 @@
 '''# Purpose: Contains the function to create a new application in the database.'''
 from datetime import date
 
-from CC24CWUT3.db_helpers.db_connection import MySqlConnection
+from db_helpers.db_connection import MySqlConnection
 
 def create_app(company, position, userid):
     '''# Creates a new application with the given company/position'''

@@ -3,7 +3,7 @@ import json
 import os
 from pathlib import Path
 
-from CC24CWUT3.db_helpers.db_connection import MySqlConnection
+from db_helpers.db_connection import MySqlConnection
 
 def get_user_by_oauth(oauth):
     '''# Get a user from their oauth token'''
