@@ -3,12 +3,12 @@ import uuid
 
 import db_connection as db_conn
 
-'''# Raised if we can't create a clientid for a new user'''
 class ClientCreationError(ValueError):
+    '''# Raised if we can't create a clientid for a new user'''
     pass
 
-'''# Create a new user with a random clientid and the given clientoauth, firstname, and lastname'''
 def create_user(clientoauth, firstname, lastname):
+    '''# Create a new user with a random clientid and the given clientoauth, firstname, and lastname'''
     unique_clientid = uuid.uuid4()
     conn = db_conn.my_sql_connection()
     conn.connect()

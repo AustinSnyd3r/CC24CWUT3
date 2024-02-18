@@ -5,13 +5,13 @@ from pathlib import Path
 
 import db_connection as db_conn
 
-'''# Status handling'''
 valid_statuses = ["WAITING", "REJECTED", "INTERVIEW", "OFFER", "ACCEPTED"]
 class InvalidStatusError(ValueError):
+    '''# Status handling'''
     pass
 
-'''# Update a company name'''
 def update_company_name(app_id, new_name):
+    '''# Update a company name'''
     conn = db_conn.my_sql_connection()
     conn.connect()
 
@@ -21,8 +21,8 @@ def update_company_name(app_id, new_name):
     conn.execute_update(sql, data)
     conn.disconnect()
 
-'''# Update a position name'''
 def update_position_name(app_id, new_name):
+    '''# Update a position name'''
     conn = db_conn.my_sql_connection()
     conn.connect()
 
@@ -32,8 +32,8 @@ def update_position_name(app_id, new_name):
     conn.execute_update(sql, data)
     conn.disconnect()
 
-'''# Update the status of an application'''
 def update_status(app_id, new_status):
+    '''# Update the status of an application'''
     if new_status not in valid_statuses:
         raise InvalidStatusError("Invalid status provided to update_status.")
 
@@ -46,8 +46,8 @@ def update_status(app_id, new_status):
     conn.execute_update(sql, data)
     conn.disconnect()
 
-'''# Set the update flag for an application'''
 def notify_update(app_id):
+    '''# Set the update flag for an application'''
     conn = db_conn.my_sql_connection()
     conn.connect()
 
@@ -57,8 +57,8 @@ def notify_update(app_id):
     conn.execute_update(sql, data)
     conn.disconnect()
 
-'''# Clear the update flag for an application'''
 def clear_update(app_id):
+    '''# Clear the update flag for an application'''
     conn = db_conn.my_sql_connection()
     conn.connect()
 

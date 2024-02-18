@@ -3,8 +3,8 @@ from datetime import date
 
 import db_connection as db_conn
 
-'''# Creates a new application with the given company/position'''
 def create_app(company, position, userid):
+    '''# Creates a new application with the given company/position'''
     conn = db_conn.my_sql_connection()
     conn.connect()
 
