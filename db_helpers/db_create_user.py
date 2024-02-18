@@ -30,12 +30,11 @@ def create_user(clientoauth, firstname, lastname):
             conn.disconnect()
             raise ClientCreationError("Unable to generate a unique clientid for the new user.")
 
-    create_user(clientid = unique_clientid, clientoauth = clientoauth, firstname = firstname, lastname = lastname)
     conn = db_conn.my_sql_connection()
     conn.connect()
 
     sql = "INSERT INTO users (clientid, clientoauth, firstname, lastname) VALUES (%s, %s, %s, %s)"
-    data = (clientid, clientoauth, firstname, lastname)
+    data = (unique_clientid, clientoauth, firstname, lastname)
 
     conn.execute_update(sql, data)
     conn.disconnect()

@@ -5,8 +5,8 @@ from pathlib import Path
 
 import mysql.connector
 
-'''# Stores an SQL connection, providing interface methods that perform SQL sanitization and error handling'''
 class my_sql_connection:
+    '''# Stores an SQL connection, providing interface methods that perform SQL sanitization and error handling'''
     ''' # Initializes the connection object '''
     def __init__(self):
         # Load our database configurations from the config file
@@ -22,8 +22,8 @@ class my_sql_connection:
         self.database = db_configs['database']
         self.connection = None
 
-    '''# Connect to the MySQL database'''
     def connect(self):
+        '''# Connect to the MySQL database'''
         try:
             self.connection = mysql.connector.connect(
                 host=self.host,
@@ -35,16 +35,16 @@ class my_sql_connection:
         except mysql.connector.Error as err:
             print(f"Error: {err}")
 
-    '''# Disconnect from the MySQL database'''
     def disconnect(self):
+        '''# Disconnect from the MySQL database'''
         if self.connection:
             self.connection.close()
             print("Disconnected from MySQL database")
         else:
             print("No active connection to close")
 
-    '''# Execute an update query'''
     def execute_update(self, sql, data=None):
+        '''# Execute an update query'''
         if not self.connection:
             print("No active connection. Please connect first.")
             return
@@ -62,8 +62,8 @@ class my_sql_connection:
         except mysql.connector.Error as err:
             print(f"Error: {err}")
 
-    '''# Execute a select query'''
     def execute_select(self, sql, data=None):
+        '''# Execute a select query'''
         if not self.connection:
             print("No active connection. Please connect first.")
             return None
