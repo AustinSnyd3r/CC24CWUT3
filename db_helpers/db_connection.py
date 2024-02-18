@@ -5,7 +5,7 @@ from pathlib import Path
 
 import mysql.connector
 
-class my_sql_connection:
+class MySqlConnection:
     '''# Stores an SQL connection, providing interface methods that perform SQL sanitization and error handling'''
     ''' # Initializes the connection object '''
     def __init__(self):

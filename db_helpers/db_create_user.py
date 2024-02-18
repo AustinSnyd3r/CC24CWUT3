@@ -10,7 +10,7 @@ class ClientCreationError(ValueError):
 def create_user(clientoauth, firstname, lastname):
     '''# Create a new user with a random clientid and the given clientoauth, firstname, and lastname'''
     unique_clientid = uuid.uuid4()
-    conn = db_conn.my_sql_connection()
+    conn = db_conn.MySqlConnection()
     conn.connect()
     id_found = False
     sql = "SELECT clientid FROM users WHERE clientid = %s"
@@ -30,7 +30,7 @@ def create_user(clientoauth, firstname, lastname):
             conn.disconnect()
             raise ClientCreationError("Unable to generate a unique clientid for the new user.")
 
-    conn = db_conn.my_sql_connection()
+    conn = db_conn.MySqlConnection()
     conn.connect()
 
     sql = "INSERT INTO users (clientid, clientoauth, firstname, lastname) VALUES (%s, %s, %s, %s)"
