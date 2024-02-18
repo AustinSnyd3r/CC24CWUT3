@@ -3,6 +3,7 @@ import uuid
 
 from db_helpers.db_connection import MySqlConnection
 
+
 class ClientCreationError(ValueError):
     '''# Raised if we can't create a clientid for a new user'''
     pass
