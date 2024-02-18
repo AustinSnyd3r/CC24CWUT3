@@ -14,6 +14,15 @@ def create_user(clientoauth, firstname, lastname):
     unique_clientid = str(uuid.uuid4())
     conn = SQLConnection()
     conn.connect()
+
+    sql = "SELECT clientoauth FROM clients WHERE clientoauth = %s"
+    data = clientoauth
+    data = [data]
+    result = conn.execute_select(sql, data)
+    if result is not None and len(result) > 0:
+        conn.disconnect()
+        return False
+
     id_found = False
     sql = "SELECT clientid FROM clients WHERE clientid = %s"
     data = unique_clientid
@@ -45,3 +54,4 @@ def create_user(clientoauth, firstname, lastname):
 
     conn.execute_update(sql, data)
     conn.disconnect()
+    return True
