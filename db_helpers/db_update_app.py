@@ -63,3 +63,16 @@ def clear_update(app_id):
 
     conn.execute_update(sql, data)
     conn.disconnect()
+
+def get_app_by_id(clientid):
+    '''# Get an application by its clientid'''
+    conn = SQLConnection()
+    conn.connect()
+
+    sql = "SELECT * FROM applications WHERE clientid = %s"
+    data = [clientid]
+
+    result = conn.execute_select(sql, data)
+    conn.disconnect()
+
+    return result
