@@ -1,3 +1,4 @@
+'''# This script is used to scan the user's Gmail account to get app-related emails.'''
 import os
 
 from google.auth.credentials import AnonymousCredentials
@@ -7,6 +8,8 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 
 def authenticate_and_get_token():
+    '''# Authenticate the user and get the token'''
+
     # The file token.json stores the user's access and refresh tokens
     SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
     flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
@@ -22,6 +25,7 @@ def authenticate_and_get_token():
     return credentials
 
 def authenticate_with_token(token):
+    '''# Authenticate with the token and get the Gmail service'''
     if os.path.exists("token.json"):
         creds = Credentials.from_authorized_user_file("token.json", 'https://www.googleapis.com/auth/gmail.readonly')
 
@@ -31,6 +35,7 @@ def authenticate_with_token(token):
     return service
 
 def scan_gmail(service):
+    '''# Use the authenticated service to scan Gmail'''
     results = service.users().messages().list(userId='me').execute()
     messages = results.get('messages', [])
 
@@ -45,6 +50,7 @@ def scan_gmail(service):
 
 
 if __name__ == "__main__":
+    '''# Main function to run the script'''
     # Step 1: Authenticate and get the token
     auth_token = authenticate_and_get_token()
 
