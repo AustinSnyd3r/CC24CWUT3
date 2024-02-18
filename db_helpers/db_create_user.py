@@ -1,14 +1,16 @@
 '''# Purpose: Contains the function to create a new user in the database'''
 import uuid
 
-from CC24CWUT3.db_helpers.db_connection import MySqlConnection
+from db_helpers.db_connection import MySqlConnection
+
 
 class ClientCreationError(ValueError):
     '''# Raised if we can't create a clientid for a new user'''
     pass
 
 def create_user(clientoauth, firstname, lastname):
-    '''# Create a new user with a random clientid and the given clientoauth, firstname, and lastname'''
+    '''# Create a new user with a random clientid and the given clientoauth, \
+    firstname, and lastname'''
     unique_clientid = uuid.uuid4()
     conn = MySqlConnection()
     conn.connect()
@@ -28,12 +30,14 @@ def create_user(clientoauth, firstname, lastname):
         tries += 1
         if tries > 10:
             conn.disconnect()
-            raise ClientCreationError("Unable to generate a unique clientid for the new user.")
+            raise ClientCreationError("Unable to generate a unique clientid \
+                                      for the new user.")
 
     conn = MySqlConnection()
     conn.connect()
 
-    sql = "INSERT INTO users (clientid, clientoauth, firstname, lastname) VALUES (%s, %s, %s, %s)"
+    sql = "INSERT INTO users (clientid, clientoauth, firstname, \
+        lastname) VALUES (%s, %s, %s, %s)"
     data = (unique_clientid, clientoauth, firstname, lastname)
 
     conn.execute_update(sql, data)

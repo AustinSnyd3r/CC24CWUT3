@@ -1,18 +1,14 @@
 '''# Purpose: Contains functions to manipulate the applications table in the database'''
-import json
-import os
-from pathlib import Path
 
-import db_connection as db_conn
+from db_helpers.db_connection import MySqlConnection
 
 valid_statuses = ["WAITING", "REJECTED", "INTERVIEW", "OFFER", "ACCEPTED"]
 class InvalidStatusError(ValueError):
     '''# Status handling'''
-    pass
 
 def update_company_name(app_id, new_name):
     '''# Update a company name'''
-    conn = db_conn.MySqlConnection()
+    conn = MySqlConnection()
     conn.connect()
 
     sql = "UPDATE applications SET company = %s WHERE applicationid = %s"
@@ -23,7 +19,7 @@ def update_company_name(app_id, new_name):
 
 def update_position_name(app_id, new_name):
     '''# Update a position name'''
-    conn = db_conn.MySqlConnection()
+    conn = MySqlConnection()
     conn.connect()
 
     sql = "UPDATE applications SET position = %s WHERE applicationid = %s"
@@ -37,7 +33,7 @@ def update_status(app_id, new_status):
     if new_status not in valid_statuses:
         raise InvalidStatusError("Invalid status provided to update_status.")
 
-    conn = db_conn.MySqlConnection()
+    conn = MySqlConnection()
     conn.connect()
 
     sql = "UPDATE applications SET status = %s WHERE applicationid = %s"
@@ -48,22 +44,22 @@ def update_status(app_id, new_status):
 
 def notify_update(app_id):
     '''# Set the update flag for an application'''
-    conn = db_conn.MySqlConnection()
+    conn = MySqlConnection()
     conn.connect()
 
     sql = "UPDATE applications SET has_update = 1 WHERE applicationid = %s"
-    data = (app_id)
+    data = app_id
 
     conn.execute_update(sql, data)
     conn.disconnect()
 
 def clear_update(app_id):
     '''# Clear the update flag for an application'''
-    conn = db_conn.MySqlConnection()
+    conn = MySqlConnection()
     conn.connect()
 
     sql = "UPDATE applications SET has_update = 0 WHERE applicationid = %s"
-    data = (app_id)
+    data = app_id
 
     conn.execute_update(sql, data)
     conn.disconnect()
