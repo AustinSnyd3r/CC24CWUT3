@@ -2,6 +2,7 @@
 
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 from db_helpers.db_create_user import create_user
 
@@ -13,8 +14,9 @@ def authenticate_and_get_token():
     '''# Authenticate the user and get the token'''
 
     # The file token.json stores the user's access and refresh tokens
-    SCOPES = ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/userinfo.profile']
-    flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+    scopes = ['https://www.googleapis.com/auth/gmail.readonly',\
+               'https://www.googleapis.com/auth/userinfo.profile']
+    flow = InstalledAppFlow.from_client_secrets_file('credentials.json', scopes)
     flow.redirect_uri = 'http://localhost:8080/'
 
     # Redirect user to Google's authentication page
@@ -32,7 +34,7 @@ def authenticate_with_token(creds):
     service = build('gmail', 'v1', credentials=creds)
 
     #get the user first/last from their gmail profile
-    first, last = getUserName(creds)
+    first, last = get_user_name(creds)
     print(first, last)
 
     #clientSecret = creds['web']['client_secret']
@@ -46,14 +48,14 @@ def authenticate_with_token(creds):
     return service
 
 
-def getUserName(creds):
+def get_user_name(creds):
     """
 
     :param creds: OAuth token
     :return: strings first and last names.
     """
     try:
-        service = build("people", "v1", credentials=creds)
+        service = build(serviceName="people", version="v1", credentials=creds)
         # Get the person details
         person = service.people().get(resourceName='people/me', personFields='names').execute()
 
@@ -66,7 +68,7 @@ def getUserName(creds):
                     last = name['familyName']
 
             return first, last
-    except Exception as e:
+    except HttpError as e:
         print("Error while getting user first and last name!" + e)
         return None, None
 
@@ -81,45 +83,47 @@ def scan_gmail(service):
         return
     for message in messages:
         msg = service.users().messages().get(userId='me', id=message['id']).execute()
-        subject = msg['payload']['headers'][16]['value']  # Adjust index as needed
+        #subject = msg['payload']['headers'][16]['value']  # Adjust index as needed
         snippet = msg.get('snippet', '')
-        print(determineStatus(snippet))
+        print(determine_status(snippet))
 
 
 def send_email_to_frontend(content):
+    '''# Send the email content to the frontend'''
     print("This is a test")
-def determineStatus(snippet):
+
+def determine_status(snippet):
     """
      Determines with simple majority if message is good or bad based on keywords
     :param message:
     :return:
     """
 
-    numPos = 0
-    numNeg = 0
+    num_pos = 0
+    num_neg = 0
 
     words = snippet.split()
     #TODO: Make this work with individual users keywords
 
-    negKeywords = {"sorry", "regret", "candidate", "unfortunately"}
-    posKeywords = {"congratulations", "happy", "glad", "assessment", "invite"}
+    neg_keywords = {"sorry", "regret", "candidate", "unfortunately"}
+    pos_keywords = {"congratulations", "happy", "glad", "assessment", "invite"}
 
     for word in words:
-        if word.lower() in negKeywords:
-            numNeg += 1
-        if word.lower() in posKeywords:
-            numPos += 1
+        if word.lower() in neg_keywords:
+            num_neg += 1
+        if word.lower() in pos_keywords:
+            num_pos += 1
 
-    if numNeg > numPos:
+    if num_neg > num_pos:
         return -1
-    if numPos > numNeg:
-        return 1
     else:
-        return 0
+        if num_pos > num_neg:
+            return 1
+        else:
+            return 0
 
 
 if __name__ == "__main__":
-    '''# Main function to run the script'''
     # Step 1: Authenticate and get the token
     auth_token = authenticate_and_get_token()
 
