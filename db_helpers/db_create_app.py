@@ -15,7 +15,8 @@ def create_app(company, position, userid):
         conn.disconnect()
         raise ValueError("Invalid userid provided to create_app.")
 
-    sql = "INSERT INTO applications (clientid, company, position, status, date_submitted) VALUES (%s, %s, %s, %s, %s)"
+    sql = "INSERT INTO applications (clientid, company, position, \
+        status, date_submitted) VALUES (%s, %s, %s, %s, %s)"
     data = (userid, company, position, "WAITING", date.today())
 
     conn.execute_update(sql, data)

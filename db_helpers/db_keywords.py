@@ -19,7 +19,7 @@ def update_keyword_category(clientid, keyword, keywordtype):
     conn = MySqlConnection()
     conn.connect()
 
-    if(keywordtype not in valid_keyword_types):
+    if keywordtype not in valid_keyword_types:
         conn.disconnect()
         raise ValueError("Invalid keyword type provided to update_keyword_category.")
 
@@ -35,7 +35,7 @@ def get_keywords(clientid):
     conn.connect()
 
     sql = "SELECT keyword, keywordtype FROM keywords WHERE clientid = %s"
-    data = (clientid)
+    data = clientid
 
     result = conn.execute_select(sql, data)
     conn.disconnect()

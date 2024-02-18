@@ -1,7 +1,4 @@
 '''# Purpose: Contains the functions to get a user from the database'''
-import json
-import os
-from pathlib import Path
 
 from db_helpers.db_connection import MySqlConnection
 

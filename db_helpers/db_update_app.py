@@ -1,7 +1,4 @@
 '''# Purpose: Contains functions to manipulate the applications table in the database'''
-import json
-import os
-from pathlib import Path
 
 from db_helpers.db_connection import MySqlConnection
 
