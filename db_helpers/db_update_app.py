@@ -1,6 +1,6 @@
 '''# Purpose: Contains functions to manipulate the applications table in the database'''
 
-from db_helpers.db_connection import SQLConnection
+from CC24CWUT3.db_helpers.db_connection import SQLConnection
 
 valid_statuses = ["WAITING", "REJECTED", "INTERVIEW", "OFFER", "ACCEPTED"]
 class InvalidStatusError(ValueError):
@@ -65,7 +65,7 @@ def clear_update(app_id):
     conn.disconnect()
 
 def get_app_by_id(clientid):
-    '''# Get an application by its clientid'''
+    '''# Select all the applications for a given clientid '''
     conn = SQLConnection()
     conn.connect()
 

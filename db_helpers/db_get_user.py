@@ -1,6 +1,6 @@
 '''# Purpose: Contains the functions to get a user from the database'''
 
-from db_helpers.db_connection import SQLConnection
+from CC24CWUT3.db_helpers.db_connection import SQLConnection
 
 def get_user_by_oauth(oauth):
     '''# Get a user from their oauth token'''

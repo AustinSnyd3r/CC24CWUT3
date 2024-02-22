@@ -1,5 +1,5 @@
 '''# Purpose: Contains functions to manipulate the keywords table in the database'''
-from db_helpers.db_connection import SQLConnection
+from CC24CWUT3.db_helpers.db_connection import SQLConnection
 
 valid_keyword_types = ["NEGATIVE", "POSITIVE", "INTERVIEW", "OFFER", "REJECTED", "ACCEPTED"]
 

@@ -5,13 +5,38 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>App Track</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+        <script src= "{{ url_for('static', filename='script.js') }}"></script>
     </head>
     <body>
-
-        <h1>Hello this is a test</h1>
-        <div id="tableContainer">
+        <header>
+            <h1>Welcome to AppTrack</h1>
+            <h2>Track your job applications easier!</h2>
+        </header>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Emails</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+        </nav>
+        <div>
+            <input type="button" value="Load Applications" id="load">
             <table id="table">
+                 <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Company</th>
+                        <th>Position</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Delete</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="appsBody">
 
+
+
+                </tbody>
             </table>
         </div>
     </body>

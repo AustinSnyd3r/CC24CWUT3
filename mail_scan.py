@@ -6,7 +6,7 @@ from googleapiclient.errors import HttpError
 
 from CC24CWUT3.db_helpers.db_get_user import get_userid_by_oauth
 from CC24CWUT3.db_helpers.db_keywords import get_keywords, add_keyword
-from db_helpers.db_create_user import create_user
+from CC24CWUT3.db_helpers.db_create_user import create_user
 
 def authenticate_and_get_token():
     '''# Authenticate the user and get the token'''
@@ -84,15 +84,9 @@ def scan_gmail(service, clientId):
         snippet = msg.get('snippet', '')
         print(determine_status(snippet, clientId))
 
-
-def send_email_to_frontend(content):
-    '''# Send the email content to the frontend'''
-    print("This is a test")
-
 def determine_status(snippet, clientId):
     """
      Determines with simple majority if message is good or bad based on keywords
-    :param message:
     :return:
     """
 
@@ -133,8 +127,9 @@ def determine_status(snippet, clientId):
         else:
             return 0
 
+if __name__ == '__main__':
 
-if __name__ == "__main__":
+    """
     # Step 1: Authenticate and get the token
     auth_token = authenticate_and_get_token()
 
@@ -146,3 +141,4 @@ if __name__ == "__main__":
 
     # Step 3: Use the authenticated service to scan Gmail
     scan_gmail(gmail_service, clientId)
+    """
