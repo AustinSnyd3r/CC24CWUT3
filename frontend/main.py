@@ -8,6 +8,7 @@ from CC24CWUT3.mail_scan import authenticate_and_get_token, authenticate_with_to
 
 app = Flask(__name__)
 CORS(app)
+
 #Global client id to keep track of user using the app
 global client_id
 
@@ -35,7 +36,7 @@ def loadFakeData():
     create_app("Microsoft", "Frontend Intern", [client_id])
     create_app("Google", "Senior SWE", [client_id])
     return render_template('index.html', static_url_path='/static')
-@app.route('/applications/<id>')
+
 def get_applications(id):
     """# Retrieves the applications for a given user
          Returns json of the applications
