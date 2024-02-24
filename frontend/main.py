@@ -4,7 +4,7 @@ from flask import Flask, render_template, jsonify, session
 from flask_cors import CORS
 from CC24CWUT3.db_helpers.db_create_app import create_app
 from CC24CWUT3.db_helpers.db_get_user import get_userid_by_oauth
-from CC24CWUT3.db_helpers.db_update_app import get_app_by_id
+from CC24CWUT3.db_helpers.db_update_app import get_app_by_id, delete_app_by_id
 from CC24CWUT3.mail_scan import authenticate_and_get_token, authenticate_with_token, scan_gmail
 
 load_dotenv('key.env')
@@ -47,9 +47,16 @@ def get_applications():
 
     return jsonify(get_app_by_id(client_id))
 
-@app.route("/applications/delete/<id>", methods=['DELETE'])
-def delete_application(id):
-    print("Deleting application")
+@app.route("/applications/delete/<app_id>", methods=['DELETE'])
+def delete_application(app_id):
+    try:
+        client_id = session.get('client_id')
+        delete_app_by_id(app_id, client_id)
+        return 'Success', 200
+    except Exception as e:
+        print(f"Error deleting application with ID {app_id}: {e}")
+        return 'Failed', 500
+
 
 @app.route("/applications/edit/<id>")
 def edit_application(id):

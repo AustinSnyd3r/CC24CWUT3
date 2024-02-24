@@ -77,11 +77,12 @@ def get_app_by_id(clientid):
 
     return result
 
-def delete_app_by_id(id):
+def delete_app_by_id(id, clientid):
+    """# Delete an application by its id"""
     conn = SQLConnection()
     conn.connect()
 
-    sql = "DELETE FROM applications WHERE id = %s"
-    data = [id]
+    sql = "DELETE FROM applications WHERE applicationid = %s AND clientid =%s"
+    data = [id, clientid]
 
     conn.execute_update(sql, data)

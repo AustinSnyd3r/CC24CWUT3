@@ -53,7 +53,23 @@ let delete_app = (id) =>{
 
     // Check if the user confirmed the deletion
     if (isConfirmed) {
-        console.log(`Deleting application with ID: ${id}`);
+        // Make an AJAX request to the backend
+        fetch(`/applications/delete/${id}`, {
+            method: 'DELETE',  // Assuming you are using DELETE method for deletion
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log(`Deletion request for application ${id} successful`);
+            } else {
+                console.log(`Deletion request for application ${id} failed`);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     } else {
         // The user clicked 'Cancel' or closed the dialog
         console.log('Deletion canceled');
