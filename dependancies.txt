@@ -7,3 +7,7 @@ flask-cors
 os
 dotenv
 dotenv-load_env
+torch
+transformers
+accelerate
+ollama
