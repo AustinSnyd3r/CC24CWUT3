@@ -3,7 +3,7 @@
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-
+import ollama
 from CC24CWUT3.db_helpers.db_get_user import get_userid_by_oauth
 from CC24CWUT3.db_helpers.db_keywords import get_keywords, add_keyword
 from CC24CWUT3.db_helpers.db_create_user import create_user
