@@ -163,3 +163,4 @@ token.json
 credentials.json
 db_config.json
 key.env
+test.env
