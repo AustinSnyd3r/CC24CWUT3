@@ -22,7 +22,7 @@ let handle_applications = (apps) =>{
                          <td>${app[4]}</td>
                          <td>${app[5]}</td>
                         <td><button value = "Delete" id=${app[0]} class="delete"></td>
-                        <td><button value = "Edit" id=${app[0]+10} class="edit"></td>`;
+                        <td><button value = "Edit" id=${app[0]} class="edit"></td>`;
         tbody.appendChild(row);
     })
 
@@ -49,11 +49,27 @@ let edit_app = (id) =>{
 }
 
 let delete_app = (id) =>{
-     const isConfirmed = window.confirm("Are you sure you want to delete this application?\nThis action CANNOT be undone!");
+     const isConfirmed = window.confirm(`Are you sure you want to delete application: ${id}`);
 
     // Check if the user confirmed the deletion
     if (isConfirmed) {
-        console.log(`Deleting application with ID: ${id}`);
+        // Make an AJAX request to the backend
+        fetch(`/applications/delete/${id}`, {
+            method: 'DELETE',  // Assuming you are using DELETE method for deletion
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log(`Deletion request for application ${id} successful`);
+            } else {
+                console.log(`Deletion request for application ${id} failed`);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     } else {
         // The user clicked 'Cancel' or closed the dialog
         console.log('Deletion canceled');
