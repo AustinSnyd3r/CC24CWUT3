@@ -22,7 +22,7 @@ let handle_applications = (apps) =>{
                          <td>${app[4]}</td>
                          <td>${app[5]}</td>
                         <td><button value = "Delete" id=${app[0]} class="delete"></td>
-                        <td><button value = "Edit" id=${app[0]+10} class="edit"></td>`;
+                        <td><button value = "Edit" id=${app[0]} class="edit"></td>`;
         tbody.appendChild(row);
     })
 
@@ -49,7 +49,7 @@ let edit_app = (id) =>{
 }
 
 let delete_app = (id) =>{
-     const isConfirmed = window.confirm("Are you sure you want to delete this application?\nThis action CANNOT be undone!");
+     const isConfirmed = window.confirm(`Are you sure you want to delete application: ${id}`);
 
     // Check if the user confirmed the deletion
     if (isConfirmed) {

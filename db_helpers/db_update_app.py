@@ -76,3 +76,12 @@ def get_app_by_id(clientid):
     conn.disconnect()
 
     return result
+
+def delete_app_by_id(id):
+    conn = SQLConnection()
+    conn.connect()
+
+    sql = "DELETE FROM applications WHERE id = %s"
+    data = [id]
+
+    conn.execute_update(sql, data)
