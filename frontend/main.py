@@ -62,6 +62,17 @@ def delete_application(app_id):
 def edit_application(id):
     print("Editing application")
 
+@app.route("/applications/add/<company>/<position>/<status>")
+def add_application(company, position, status):
+    try:
+        client_id = session.get('client_id')
+        create_app(company, position, status, [client_id])
+        return 'Success', 200
+    except Exception as e:
+        print("Error adding application to database")
+        return "Error adding application"
+
+
 
 if __name__ == '__main__':
 

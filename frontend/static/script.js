@@ -82,6 +82,27 @@ let fetch_applications = () => {
         .then(handle_applications)
         .catch(error => console.error('Error fetching applications:', error));
 };
+let addApplication = () => {
+        let company = document.getElementById('company').value;
+        let position = document.getElementById('position').value;
+        let status = document.getElementById('status').value;
+
+        fetch("/applications/add/" + company + "/" + position + "/" + status, {
+            method: 'GET'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error adding application");
+            }
+            return response.text();
+        })
+        .then(data => {
+            alert(data); // Display the response from the server
+        })
+        .catch(error => {
+            console.error("Error adding application:", error.message);
+        });
+    }
 
 document.addEventListener('DOMContentLoaded', function() {
     //load the applications on page load
@@ -91,4 +112,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let load = document.getElementById("load");
     load.addEventListener("click", fetch_applications);
 
+    let add = document.getElementById("addButton");
+    add.addEventListener("click", addApplication)
+
 });
+
+
