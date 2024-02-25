@@ -3,10 +3,9 @@
 
 let clear_table = () =>{
     let body = document.getElementById("appsBody");
-
-     while (body.firstChild) {
+    while (body.firstChild) {
          body.removeChild(body.firstChild);
-     }
+    }
 }
 
 //

@@ -72,7 +72,8 @@ def get_user_name(creds):
 
 def scan_gmail(service, clientId):
     '''# Use the authenticated service to scan Gmail'''
-    results = service.users().messages().list(userId='me').execute()
+    search_query = 'is:unread'
+    results = service.users().messages().list(userId='me',q=search_query).execute()
     messages = results.get('messages', [])
 
     if not messages:
@@ -89,7 +90,7 @@ def determine_status(snippet, clientId):
      Determines with simple majority if message is good or bad based on keywords
     :return:
     """
-
+    print(snippet)
     #keep track of the number of negative and positive words in email
     num_pos = 0
     num_neg = 0

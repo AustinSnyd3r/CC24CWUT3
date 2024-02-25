@@ -3,7 +3,7 @@ from datetime import date
 
 from CC24CWUT3.db_helpers.db_connection import SQLConnection
 
-def create_app(company, position, userid):
+def create_app(company, position, status, userid):
     '''# Creates a new application with the given company/position'''
     conn = SQLConnection()
     conn.connect()
@@ -18,7 +18,7 @@ def create_app(company, position, userid):
     sql = "INSERT INTO applications (clientid, company, position, \
         status, date_submitted) VALUES (%s, %s, %s, %s, %s)"
     userid = userid[0]
-    data = (userid, company, position, "WAITING", date.today())
+    data = (userid, company, position, status, date.today())
 
     conn.execute_update(sql, data)
     conn.disconnect()
