@@ -4,7 +4,6 @@ google-auth-oauthlib
 google-auth-httplib2
 google-api-python-client
 flask-cors
-os
 dotenv
 dotenv-load_env
 torch
