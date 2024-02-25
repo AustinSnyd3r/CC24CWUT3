@@ -14,6 +14,9 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'default_secret_key')
 
 @app.route('/')
 def oauth_verification():
+    """Verifies OAuth for Google Mail API. Saves the client id to env variable
+       returns the home html page.
+    """
     # Step 1: Authenticate and get the token
     auth_token = authenticate_and_get_token()
 
@@ -31,6 +34,7 @@ def oauth_verification():
 
 @app.route("/loadFakeData")
 def loadFakeData():
+    """Just meant for testing purposes"""
     client_id = session.get('client_id')
     create_app("Facebook", "SWE Intern", "WAITING", [client_id])
     create_app("Amazon", "UI Intern","WAITING", [client_id])
@@ -49,6 +53,7 @@ def get_applications():
 
 @app.route("/applications/delete/<app_id>", methods=['DELETE'])
 def delete_application(app_id):
+    """Used to delete application from database by id. calls method in db_helpers"""
     try:
         client_id = session.get('client_id')
         delete_app_by_id(app_id, client_id)
@@ -60,10 +65,12 @@ def delete_application(app_id):
 
 @app.route("/applications/edit/<id>")
 def edit_application(id):
+    """Used to edit an existing application by calling method in db_helpers"""
     print("Editing application")
 
 @app.route("/applications/add/<company>/<position>/<status>")
 def add_application(company, position, status):
+    """Used to add an application to database. Calls create_app from db_helpers."""
     try:
         client_id = session.get('client_id')
         create_app(company, position, status, [client_id])
