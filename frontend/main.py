@@ -32,10 +32,10 @@ def oauth_verification():
 @app.route("/loadFakeData")
 def loadFakeData():
     client_id = session.get('client_id')
-    create_app("Facebook", "SWE Intern", [client_id])
-    create_app("Amazon", "UI Intern", [client_id])
-    create_app("Microsoft", "Frontend Intern", [client_id])
-    create_app("Google", "Senior SWE", [client_id])
+    create_app("Facebook", "SWE Intern", "WAITING", [client_id])
+    create_app("Amazon", "UI Intern","WAITING", [client_id])
+    create_app("Microsoft", "Frontend Intern","WAITING", [client_id])
+    create_app("Google", "Senior SWE","WAITING", [client_id])
     return render_template('index.html', static_url_path='/static')
 
 @app.route("/applications")
