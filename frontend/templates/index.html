@@ -26,11 +26,18 @@
             <table id="addTable">
                 <tr><th>Add an application:</th><th></th><th></th><th></th><th></th></tr>
                 <tr id="addAppRow">
-                        <td><input type="text" placeholder="Company"></td>
-                        <td><input type="text" placeholder="Position"></td>
-                        <td><input type="text" value="WAITING"></td>
+                        <td><input type="text" placeholder="Company" id="company"></td>
+                        <td><input type="text" placeholder="Position" id="position"></td>
+                        <td>
+                            <select id="status">
+                                <option value="WAITING" selected>WAITING</option>
+                                <option value="INTERVIEW">INTERVIEW</option>
+                                <option value="OFFER">OFFER</option>
+                                <option value="REJECTED">REJECTED</option>
+                            </select>
+                        </td>
                         <td></td>
-                        <td><input type="button" id="addButton" value="Add"></td>
+                        <td><input type="submit" id="addButton" value="Add"></td>
                     </tr>
             </table>
 
