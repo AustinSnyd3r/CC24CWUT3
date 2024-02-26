@@ -63,8 +63,8 @@ def delete_application(app_id):
         return 'Failed', 500
 
 
-@app.route("/applications/edit/<id>")
-def edit_application(id):
+@app.route("/applications/edit/<app_id>")
+def edit_application(app_id):
     """Used to edit an existing application by calling method in db_helpers"""
     print("Editing application")
 
@@ -78,8 +78,6 @@ def add_application(company, position, status):
     except Exception as e:
         print("Error adding application to database")
         return "Error adding application"
-
-
 
 if __name__ == '__main__':
 
