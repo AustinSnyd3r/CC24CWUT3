@@ -44,6 +44,25 @@ let edit_delete_listeners = (deleteButtons, editButtons) => {
 }
 
 let edit_app = (id) =>{
+    // Make an AJAX request to the backend
+        fetch(`/applications/edit/${id}`, {
+            method: 'GET',  //
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log(`Edit request for application ${id} successful`);
+                fetch_applications();
+
+            } else {
+                console.log(`Edit request for application ${id} failed`);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 
 }
 
@@ -62,6 +81,7 @@ let delete_app = (id) =>{
         .then(response => {
             if (response.ok) {
                 console.log(`Deletion request for application ${id} successful`);
+                fetch_applications();
             } else {
                 console.log(`Deletion request for application ${id} failed`);
             }
@@ -94,6 +114,7 @@ let addApplication = () => {
             if (!response.ok) {
                 throw new Error("Error adding application");
             }
+            fetch_applications();
             return response.text();
         })
         .then(data => {
@@ -107,14 +128,7 @@ let addApplication = () => {
 document.addEventListener('DOMContentLoaded', function() {
     //load the applications on page load
     fetch_applications();
-
-    //make a button to load applications if they edited one or something
-    let load = document.getElementById("load");
-    load.addEventListener("click", fetch_applications);
-
     let add = document.getElementById("addButton");
     add.addEventListener("click", addApplication)
 
 });
-
-

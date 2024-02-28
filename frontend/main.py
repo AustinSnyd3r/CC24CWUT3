@@ -67,10 +67,13 @@ def delete_application(app_id):
         return 'Failed', 500
 
 
-@app.route("/applications/edit/<app_id>")
+
+@app.route("/applications/edit/<app_id>", methods=['GET'])
 def edit_application(app_id):
     """Used to edit an existing application by calling method in db_helpers"""
-    print("Editing application")
+    client_id = session.get('client_id')
+    render_template('editpage.html', app_id=app_id, client_id=client_id)
+    return "Success", 200
 
 
 @app.route("/applications/add/<company>/<position>/<status>")
@@ -83,6 +86,7 @@ def add_application(company, position, status):
     except Exception as e:
         print("Error adding application to database:", e)
         return "Error adding application", 500
+
 
 
 if __name__ == '__main__':
