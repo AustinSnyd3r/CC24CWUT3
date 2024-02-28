@@ -12,6 +12,7 @@ app = Flask(__name__)
 CORS(app)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'default_secret_key')
 
+
 @app.route('/')
 def oauth_verification():
     # Step 1: Authenticate and get the token
@@ -29,14 +30,16 @@ def oauth_verification():
 
     return render_template('index.html', static_url_path='/static')
 
+
 @app.route("/loadFakeData")
-def loadFakeData():
+def load_fake_data():
     client_id = session.get('client_id')
     create_app("Facebook", "SWE Intern", "WAITING", [client_id])
     create_app("Amazon", "UI Intern","WAITING", [client_id])
     create_app("Microsoft", "Frontend Intern","WAITING", [client_id])
     create_app("Google", "Senior SWE","WAITING", [client_id])
     return render_template('index.html', static_url_path='/static')
+
 
 @app.route("/applications")
 def get_applications():
@@ -46,6 +49,7 @@ def get_applications():
     client_id = session.get('client_id')
 
     return jsonify(get_app_by_id(client_id))
+
 
 @app.route("/applications/delete/<app_id>", methods=['DELETE'])
 def delete_application(app_id):
@@ -58,9 +62,13 @@ def delete_application(app_id):
         return 'Failed', 500
 
 
-@app.route("/applications/edit/<id>")
-def edit_application(id):
-    print("Editing application")
+@app.route("/applications/edit/<app_id>", methods=['GET'])
+def edit_application(app_id):
+    """Used to edit an existing application by calling method in db_helpers"""
+    client_id = session.get('client_id')
+    render_template('editpage.html', app_id=app_id, client_id=client_id)
+    return "Success", 200
+
 
 @app.route("/applications/add/<company>/<position>/<status>")
 def add_application(company, position, status):
@@ -71,6 +79,7 @@ def add_application(company, position, status):
     except Exception as e:
         print("Error adding application to database")
         return "Error adding application"
+
 
 
 

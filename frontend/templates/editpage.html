@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Application</title>
+</head>
+<body>
+    <h1>Edit Application</h1>
+    <form method="post" action="">
+        <label for="company">Company:</label>
+        <input type="text" id="company" name="company" value="{{ application['company'] }}" required>
+        <br>
+        <label for="position">Position:</label>
+        <input type="text" id="position" name="position" value="{{ application['position'] }}" required>
+        <br>
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>
