@@ -3,8 +3,6 @@
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-import ollama
-from CC24CWUT3.db_helpers.db_get_user import get_userid_by_oauth
 from CC24CWUT3.db_helpers.db_keywords import get_keywords, add_keyword
 from CC24CWUT3.db_helpers.db_create_user import create_user
 
@@ -70,8 +68,8 @@ def get_user_name(creds):
         return None, None
 
 
-def scan_gmail(service, clientId):
-    '''# Use the authenticated service to scan Gmail'''
+def scan_gmail(service, client_id):
+    ''' Use the authenticated service to scan Gmail'''
     search_query = 'is:unread'
     results = service.users().messages().list(userId='me',q=search_query).execute()
     messages = results.get('messages', [])
@@ -81,52 +79,52 @@ def scan_gmail(service, clientId):
         return
     for message in messages:
         msg = service.users().messages().get(userId='me', id=message['id']).execute()
-        #subject = msg['payload']['headers'][16]['value']  # Adjust index as needed
+        # subject = msg['payload']['headers'][16]['value']  # Adjust index as needed
         snippet = msg.get('snippet', '')
-        print(determine_status(snippet, clientId))
+        print(determine_status(snippet, client_id))
 
 def determine_status(snippet, clientId):
     """
      Determines with simple majority if message is good or bad based on keywords
     :return:
     """
-    print(snippet)
-    #keep track of the number of negative and positive words in email
+    # print(snippet)
+    # Keep track of the number of negative and positive words in email
     num_pos = 0
     num_neg = 0
 
-    #words is the words from email tokenized.
+    # Words is the words from email tokenized.
     words = snippet.split()
 
     neg_keywords = {"sorry", "regret", "candidate", "unfortunately"}
     pos_keywords = {"congratulations", "happy", "glad", "assessment", "invite"}
     keywords = get_keywords([clientId])
 
-    #go through the keywords from database. add them to the list
+    # Go through the keywords from database. add them to the list
     for keyword in keywords:
         if keyword[1] == "POSITIVE":
             pos_keywords.add(keyword[0])
         else:
             neg_keywords.add(keyword[0])
 
-    #Go through email words, inc num_neg/num_pos when appropriate
+    # Go through email words, inc num_neg/num_pos when appropriate
     for word in words:
         if word.lower() in neg_keywords:
             num_neg += 1
         if word.lower() in pos_keywords:
             num_pos += 1
 
-    #debug printing
+    # Debug printing
     print("Num_pos", num_pos, "numneg", num_neg)
 
-    #RETURNS (-1 : NEG, 1 : POS, 0 NEUTRAL)
+    # RETURNS (-1 : NEG, 1 : POS, 0 NEUTRAL)
     if num_neg > num_pos:
         return -1
-    else:
-        if num_pos > num_neg:
-            return 1
-        else:
-            return 0
+    if num_pos > num_neg:
+        return 1
+
+    # Neutral
+    return 0
 
 if __name__ == '__main__':
 

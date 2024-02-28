@@ -15,6 +15,9 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'default_secret_key')
 
 @app.route('/')
 def oauth_verification():
+    """Verifies OAuth for Google Mail API. Saves the client id to env variable
+       returns the home html page.
+    """
     # Step 1: Authenticate and get the token
     auth_token = authenticate_and_get_token()
 
@@ -32,12 +35,13 @@ def oauth_verification():
 
 
 @app.route("/loadFakeData")
-def load_fake_data():
+def loadFakeData():
+    """Just meant for testing purposes"""
     client_id = session.get('client_id')
     create_app("Facebook", "SWE Intern", "WAITING", [client_id])
-    create_app("Amazon", "UI Intern","WAITING", [client_id])
-    create_app("Microsoft", "Frontend Intern","WAITING", [client_id])
-    create_app("Google", "Senior SWE","WAITING", [client_id])
+    create_app("Amazon", "UI Intern", "WAITING", [client_id])
+    create_app("Microsoft", "Frontend Intern", "WAITING", [client_id])
+    create_app("Google", "Senior SWE", "WAITING", [client_id])
     return render_template('index.html', static_url_path='/static')
 
 
@@ -53,6 +57,7 @@ def get_applications():
 
 @app.route("/applications/delete/<app_id>", methods=['DELETE'])
 def delete_application(app_id):
+    """Used to delete application from database by id. calls method in db_helpers"""
     try:
         client_id = session.get('client_id')
         delete_app_by_id(app_id, client_id)
@@ -60,6 +65,7 @@ def delete_application(app_id):
     except Exception as e:
         print(f"Error deleting application with ID {app_id}: {e}")
         return 'Failed', 500
+
 
 
 @app.route("/applications/edit/<app_id>", methods=['GET'])
@@ -72,14 +78,14 @@ def edit_application(app_id):
 
 @app.route("/applications/add/<company>/<position>/<status>")
 def add_application(company, position, status):
+    """Used to add an application to database. Calls create_app from db_helpers."""
     try:
         client_id = session.get('client_id')
         create_app(company, position, status, [client_id])
         return 'Success', 200
     except Exception as e:
-        print("Error adding application to database")
-        return "Error adding application"
-
+        print("Error adding application to database:", e)
+        return "Error adding application", 500
 
 
 
