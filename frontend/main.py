@@ -1,10 +1,10 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, render_template, jsonify, session
+from flask import Flask, render_template, jsonify, session, url_for
 from flask_cors import CORS
 from CC24CWUT3.db_helpers.db_create_app import create_app
 from CC24CWUT3.db_helpers.db_get_user import get_userid_by_oauth
-from CC24CWUT3.db_helpers.db_update_app import get_app_by_id, delete_app_by_id
+from CC24CWUT3.db_helpers.db_update_app import get_app_by_id, delete_app_by_id, update_whole_app
 from CC24CWUT3.mail_scan import authenticate_and_get_token, authenticate_with_token, scan_gmail
 
 load_dotenv('key.env')
@@ -67,13 +67,17 @@ def delete_application(app_id):
         return 'Failed', 500
 
 
+@app.route("/applications/edit/<company>/<position>/<status>/<app_id>", methods=['GET'])
+def edit_application(company, position, status, app_id):
 
-@app.route("/applications/edit/<app_id>", methods=['GET'])
-def edit_application(app_id):
     """Used to edit an existing application by calling method in db_helpers"""
     client_id = session.get('client_id')
-    render_template('editpage.html', app_id=app_id, client_id=client_id)
-    return "Success", 200
+    try:
+        update_whole_app(company, position, status, app_id, client_id)
+        return "Success", 200
+    except Exception as e:
+        print("Error updating application with id:", app_id, e)
+        return "Error updating application", 500
 
 
 @app.route("/applications/add/<company>/<position>/<status>")
@@ -84,9 +88,8 @@ def add_application(company, position, status):
         create_app(company, position, status, [client_id])
         return 'Success', 200
     except Exception as e:
-        print("Error adding application to database:", e)
+        print("Error adding application to database", e)
         return "Error adding application", 500
-
 
 
 if __name__ == '__main__':

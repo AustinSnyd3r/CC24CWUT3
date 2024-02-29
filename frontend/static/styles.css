@@ -1,3 +1,14 @@
+header{
+    background-color: lightgray;
+    padding: 0;
+}
+header h1{
+    margin-top: 0;
+}
+header h2{
+    margin: 0;
+}
+
 
 
 tbody {
@@ -57,3 +68,11 @@ tbody {
       background-color: #2980b9;
     }
 
+
+    .hide{
+        display: none;
+    }
+
+    .show{
+        display: block;
+    }

@@ -28,6 +28,20 @@ def update_position_name(app_id, new_name):
     conn.execute_update(sql, data)
     conn.disconnect()
 
+def update_whole_app(new_company, new_position, new_status, app_id, client_id):
+    """Update the whole application"""
+    if new_status not in valid_statuses:
+        raise InvalidStatusError("Invalid status provided to update_status.")
+
+    conn = SQLConnection()
+    conn.connect()
+
+    sql = "UPDATE applications SET status = %s, company = %s, position = %s WHERE applicationid = %s AND clientid = %s"
+    data = (new_status, new_company, new_position, app_id, client_id)
+
+    conn.execute_update(sql, data)
+    conn.disconnect()
+
 def update_status(app_id, new_status):
     '''# Update the status of an application'''
     if new_status not in valid_statuses:
