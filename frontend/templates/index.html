@@ -19,25 +19,43 @@
             <a href="#">Contact</a>
         </nav>
         <div>
-
         </div>
         <div>
             <table id="addTable">
                 <tr><th>Add an application:</th><th></th><th></th><th></th><th></th></tr>
                 <tr id="addAppRow">
-                        <td><input type="text" placeholder="Company" id="company"></td>
-                        <td><input type="text" placeholder="Position" id="position"></td>
-                        <td>
-                            <select id="status">
-                                <option value="WAITING" selected>WAITING</option>
-                                <option value="INTERVIEW">INTERVIEW</option>
-                                <option value="OFFER">OFFER</option>
-                                <option value="REJECTED">REJECTED</option>
-                            </select>
-                        </td>
-                        <td></td>
-                        <td><input type="submit" id="addButton" value="Add"></td>
-                    </tr>
+                    <td><input type="text" placeholder="Company" id="company"></td>
+                    <td><input type="text" placeholder="Position" id="position"></td>
+                    <td>
+                        <select id="status">
+                            <option value="WAITING" selected>WAITING</option>
+                            <option value="INTERVIEW">INTERVIEW</option>
+                            <option value="OFFER">OFFER</option>
+                            <option value="REJECTED">REJECTED</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <td><input type="submit" id="addButton" value="Add"></td>
+                </tr>
+            </table>
+
+             <table id="editTable" class="hide">
+                <tr><th>Edit an application:</th><th></th><th></th><th></th><th></th></tr>
+                <tr id="editAppRow">
+                    <input type="hidden" id="id_holder"/>
+                    <td><input type="text" placeholder="Company" id="company_edit"></td>
+                    <td><input type="text" placeholder="Position" id="position_edit"></td>
+                    <td>
+                        <select id="status_edit">
+                            <option value="WAITING" selected>WAITING</option>
+                            <option value="INTERVIEW">INTERVIEW</option>
+                            <option value="OFFER">OFFER</option>
+                            <option value="REJECTED">REJECTED</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <td><input type="submit" id="editButton" value="Add"></td>
+                </tr>
             </table>
 
             <table id="table">
