@@ -6,6 +6,7 @@ from googleapiclient.errors import HttpError
 from CC24CWUT3.db_helpers.db_keywords import get_keywords, add_keyword
 from CC24CWUT3.db_helpers.db_create_user import create_user
 
+
 def authenticate_and_get_token():
     '''# Authenticate the user and get the token'''
 
