@@ -70,19 +70,32 @@ def get_user_name(creds):
 
 
 def scan_gmail(service, client_id):
-    ''' Use the authenticated service to scan Gmail'''
+    ''' Use the authenticated service to scan Gmail
+
+        Go through new messages in box, send to analysis function
+        then make array of tuples [(classifier, (email_body)]
+        then return array of tuples
+    '''
     search_query = 'is:unread'
     results = service.users().messages().list(userId='me',q=search_query).execute()
     messages = results.get('messages', [])
 
+    #list of tuples, first is classifier: 0, 1, -1 second is email body
+    email_data = []
     if not messages:
         print('No labels found')
-        return
+        email_data.append(False)
+        return email_data
+
     for message in messages:
+
         msg = service.users().messages().get(userId='me', id=message['id']).execute()
         # subject = msg['payload']['headers'][16]['value']  # Adjust index as needed
         snippet = msg.get('snippet', '')
-        print(determine_status(snippet, client_id))
+
+        email_data.append((determine_status(snippet, client_id), snippet))
+
+    return email_data
 
 def determine_status(snippet, clientId):
     """

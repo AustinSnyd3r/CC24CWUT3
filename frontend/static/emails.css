@@ -1,0 +1,17 @@
+
+main{
+    display: flex;
+}
+main aside{
+    width: 600px;
+
+}
+
+main section{
+    width: 600px;
+    margin-left: 30px;
+}
+
+main section p{
+    line-height: 150%;
+}
