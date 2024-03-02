@@ -4,15 +4,54 @@
     <meta charset="UTF-8">
     <title>Emails Page</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='emails.css') }}">
 </head>
 <body>
-     <nav>
-        <a href="">Home</a>
-        <a href="/">Home</a>
-        <a href="/emails">Emails</a>
-        <a href="#">Services</a>
-        <a href="#">Contact</a>
-     </nav>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/emails">Emails</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+         </nav>
+    <main>
+
+        <aside>
+            <table>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+
+
+            </table>
+        </aside>
+
+        <section>
+            <h1>Current Email</h1>
+            <p>
+                We really appreciate the time and effort you took to connect with us and apply for the position:
+                Software Engineer Intern. We are no longer reviewing applicants for this particular position,
+                but that doesn't necessarily mean this is the end. There are many openings at Company and we're always looking
+                for smart, qualified and motivated applicants. If you see another interesting position, please apply and
+                we'll get back in touch!
+                Thank you,
+                Company Global Talent Acquisition
+            </p>
+            <p id="hypothesis">We believe that this is a rejection email. Would you like to edit:</p>
+            <p id="predictedApplication">Company, Position, Status</p>
+            <input type="button" value="Yes" id="yes">
+            <input type="button" value="No" id="no">
+        </section>
+    </main>
 </body>
 </html>
