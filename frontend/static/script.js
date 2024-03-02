@@ -43,14 +43,16 @@ let edit_delete_listeners = (deleteButtons, editButtons) => {
     });
 }
 
+//Tries to delete an application from the database.
 let delete_app = (id) =>{
+    //ask for user to confirm if they meant to click delete
      const isConfirmed = window.confirm(`Are you sure you want to delete application: ${id}`);
 
     // Check if the user confirmed the deletion
     if (isConfirmed) {
-        // Make an AJAX request to the backend
+        // make request to backend delete routing
         fetch(`/applications/delete/${id}`, {
-            method: 'DELETE',  // Assuming you are using DELETE method for deletion
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -79,11 +81,14 @@ let fetch_applications = () => {
         .then(handle_applications)
         .catch(error => console.error('Error fetching applications:', error));
 };
-let addApplication = () => {
+
+let add_application = () => {
+        //Get the company, position, status from input boxes
         let company = document.getElementById('company').value;
         let position = document.getElementById('position').value;
         let status = document.getElementById('status').value;
 
+        //request to add routing in main.py
         fetch("/applications/add/" + company + "/" + position + "/" + status, {
             method: 'GET'
         })
@@ -91,6 +96,7 @@ let addApplication = () => {
             if (!response.ok) {
                 throw new Error("Error adding application");
             }
+            //if response is okay, reload the applications table
             fetch_applications();
             return response.text();
         })
@@ -102,14 +108,19 @@ let addApplication = () => {
         });
     }
 
+//Function for editing an application, id is of the application associated with button clicked
 let edit_app = (id) =>{
+    //grab the table and make it visible.
     let table = document.getElementById("editTable")
     table.classList.remove("hide");
+
+    //hidden input to pass id of clicked edit button to the function that will make request to main.py
     let id_holder = document.getElementById("id_holder");
     id_holder.value = id;
     console.log(id);
 }
 
+//Function that will handle submission of the edit.
 let edit_submit = () =>{
     let table = document.getElementById("editTable");
     let company = document.getElementById("company_edit").value;
@@ -120,8 +131,9 @@ let edit_submit = () =>{
     console.log(position);
     console.log(status);
 
+    //Make a request to the edit routing in main.py
     fetch(`/applications/edit/${company}/${position}/${status}/${id}`, {
-            method: 'GET',  // Assuming you are using DELETE method for deletion
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -149,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //load the applications on page load
     fetch_applications();
     let add = document.getElementById("addButton");
-    add.addEventListener("click", addApplication)
+    add.addEventListener("click", add_application)
 
     let editSubmit = document.getElementById("editButton");
     editSubmit.addEventListener("click", edit_submit)

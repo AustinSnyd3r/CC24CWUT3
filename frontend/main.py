@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, render_template, jsonify, session, url_for
+from flask import Flask, render_template, jsonify, session, url_for, redirect
 from flask_cors import CORS
 from CC24CWUT3.db_helpers.db_create_app import create_app
 from CC24CWUT3.db_helpers.db_get_user import get_userid_by_oauth
@@ -32,6 +32,16 @@ def oauth_verification():
     scan_gmail(gmail_service, client_id)
 
     return render_template('index.html', static_url_path='/static')
+
+
+@app.route("/emails")
+def emails():
+    return render_template('emails.html', static_url_path='/static')
+
+
+@app.route("/home")
+def home_page():
+    return redirect('index.html', static_url_path='/static')
 
 
 @app.route("/loadFakeData")
@@ -93,5 +103,4 @@ def add_application(company, position, status):
 
 
 if __name__ == '__main__':
-
     app.run(debug=True)
