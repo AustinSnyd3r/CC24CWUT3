@@ -5,7 +5,8 @@ from flask_cors import CORS
 from CC24CWUT3.db_helpers.db_create_app import create_app
 from CC24CWUT3.db_helpers.db_get_user import get_userid_by_oauth
 from CC24CWUT3.db_helpers.db_update_app import get_app_by_id, delete_app_by_id, update_whole_app
-from CC24CWUT3.mail_scan import authenticate_and_get_token, authenticate_with_token, scan_gmail
+from CC24CWUT3.mail_scan import authenticate_and_get_token, authenticate_with_token, scan_gmail, get_gmail_service, \
+    are_credentials_expired
 
 load_dotenv('key.env')
 app = Flask(__name__)
@@ -15,7 +16,7 @@ app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'default_secret_key')
 
 def is_user_authenticated():
     """Checks if the user has authenticated to reduce need to sign in multiple times"""
-    return 'client_id' in session
+    return 'client_id' in session and 'creds' in session
 
 
 @app.route('/')
@@ -24,22 +25,22 @@ def oauth_verification():
        returns the home html page.
     """
     # Check if the user is already authenticated
-    if not is_user_authenticated():
+
+    if not is_user_authenticated() or are_credentials_expired():
         # Step 1: Authenticate and get the token
         auth_token = authenticate_and_get_token()
 
         # Step 2: Get the client id. We want to reduce passing the token around
         client_id = get_userid_by_oauth([auth_token.client_secret])
-        session['client_id'] = client_id
 
         # Step 3: Authenticate with the obtained token
-        gmail_service = authenticate_with_token(auth_token)
+        gmail_service, creds = authenticate_with_token(auth_token)
 
-        # Step 4: Use the authenticated service to scan Gmail
-        scan_gmail(gmail_service, client_id)
+        # session variables, creds can be used to rebuild service
+        session['client_id'] = client_id
+        session['creds'] = creds.to_json()
 
     return render_template('index.html', static_url_path='/static')
-
 
 
 @app.route("/emails")
@@ -47,20 +48,19 @@ def emails():
     return render_template('emails.html', static_url_path='/static')
 
 
+@app.route("/emails/render")
+def get_emails():
+    try:
+        service = get_gmail_service()
+        emails_data = scan_gmail(service, session['client_id'])
+        return emails_data, 200
+    except Exception as e:
+        return [], 500
+
+
 @app.route("/home")
 def home_page():
-    return redirect('index.html', static_url_path='/static')
-
-
-@app.route("/loadFakeData")
-def loadFakeData():
-    """Just meant for testing purposes"""
-    client_id = session.get('client_id')
-    create_app("Facebook", "SWE Intern", "WAITING", [client_id])
-    create_app("Amazon", "UI Intern", "WAITING", [client_id])
-    create_app("Microsoft", "Frontend Intern", "WAITING", [client_id])
-    create_app("Google", "Senior SWE", "WAITING", [client_id])
-    return render_template('index.html', static_url_path='/static')
+    return redirect('index.html')
 
 
 @app.route("/applications")

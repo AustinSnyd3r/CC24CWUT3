@@ -1,10 +1,40 @@
 '''# This script is used to scan the user's Gmail account to get app-related emails.'''
+from datetime import datetime
 
+from flask import jsonify, session
+from google.auth.api_key import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+import json
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
 from CC24CWUT3.db_helpers.db_keywords import get_keywords, add_keyword
 from CC24CWUT3.db_helpers.db_create_user import create_user
+
+
+def are_credentials_expired():
+
+    creds_json = session.get('creds')
+    if creds_json:
+        creds = Credentials.from_authorized_user_info(json.loads(creds_json))
+        # Check if the credentials have an expiry attribute
+        if creds.expiry is None:
+            return True  # No expiry information, consider them expired
+
+        # Check if the current time is beyond the credentials' expiry time
+        return datetime.now() > creds.expiry
+
+
+def get_gmail_service():
+    # Retrieve credentials JSON from session
+    creds_json = session.get('creds')
+
+    if creds_json:
+        # Deserialize JSON to Credentials object
+        creds = Credentials.from_authorized_user_info(json.loads(creds_json))
+        return build('gmail', 'v1', credentials=creds)
+
+    return None
 
 
 def authenticate_and_get_token():
@@ -20,7 +50,8 @@ def authenticate_and_get_token():
     credentials = flow.run_local_server(port=8080)
 
     return credentials
-#
+
+
 def authenticate_with_token(creds):
     '''# Authenticate with the token and get the Gmail service'''
 
@@ -30,7 +61,7 @@ def authenticate_with_token(creds):
 
     service = build('gmail', 'v1', credentials=creds)
 
-    #get the user first/last from their gmail profile
+    # get the user first/last from their gmail profile
     first, last = get_user_name(creds)
     print(first, last)
 
@@ -42,7 +73,7 @@ def authenticate_with_token(creds):
         except Exception as e:
             print(e)
 
-    return service
+    return service, creds
 
 
 def get_user_name(creds):
@@ -70,32 +101,34 @@ def get_user_name(creds):
 
 
 def scan_gmail(service, client_id):
-    ''' Use the authenticated service to scan Gmail
-
-        Go through new messages in box, send to analysis function
-        then make array of tuples [(classifier, (email_body)]
-        then return array of tuples
     '''
+        Use the authenticated service to scan Gmail
+        Go through new messages in box, send to analysis function
+        then make list of lists [[classifier, email_body], [x, y], [x, y], ...]
+        then return list of lists
+    '''
+
     search_query = 'is:unread'
     results = service.users().messages().list(userId='me',q=search_query).execute()
     messages = results.get('messages', [])
 
-    #list of tuples, first is classifier: 0, 1, -1 second is email body
+    # list of list, first is classifier: 0, 1, -1 second is email body
     email_data = []
     if not messages:
         print('No labels found')
-        email_data.append(False)
         return email_data
 
+    # go through messages, check status and add to list
     for message in messages:
-
         msg = service.users().messages().get(userId='me', id=message['id']).execute()
-        # subject = msg['payload']['headers'][16]['value']  # Adjust index as needed
         snippet = msg.get('snippet', '')
+        status = determine_status(snippet, client_id)
 
-        email_data.append((determine_status(snippet, client_id), snippet))
+        # add predicted status and email body to list of lists
+        email_data.append([status, snippet])
 
-    return email_data
+    return jsonify(email_data)
+
 
 def determine_status(snippet, clientId):
     """
@@ -140,18 +173,3 @@ def determine_status(snippet, clientId):
     # Neutral
     return 0
 
-if __name__ == '__main__':
-
-    """
-    # Step 1: Authenticate and get the token
-    auth_token = authenticate_and_get_token()
-
-    # Step 2: get the client id. we want to reduce passing the token around
-    clientId = get_userid_by_oauth([auth_token.client_secret])
-
-    # Step 2: Authenticate with the obtained token
-    gmail_service = authenticate_with_token(auth_token)
-
-    # Step 3: Use the authenticated service to scan Gmail
-    scan_gmail(gmail_service, clientId)
-    """
