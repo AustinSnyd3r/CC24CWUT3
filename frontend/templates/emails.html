@@ -5,6 +5,8 @@
     <title>Emails Page</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='emails.css') }}">
+    <script src= "{{ url_for('static', filename='emails.js') }}"></script>
+
 </head>
 <body>
         <nav>
@@ -16,29 +18,19 @@
     <main>
 
         <aside>
-            <table>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
-                <tr><td>Sender</td><td>Email snippet of first ten words</td></tr>
+            <table id="emailsTable">
+                <tbody id ="emailsTableBody">
+                    <tr><td>Status Prediction</td><td>Content</td></tr>
+
+                </tbody>
 
 
             </table>
         </aside>
 
         <section>
-            <h1>Current Email</h1>
-            <p>
+            <h1 id="emailHeader">Current Email</h1>
+            <p id="emailBody">
                 We really appreciate the time and effort you took to connect with us and apply for the position:
                 Software Engineer Intern. We are no longer reviewing applicants for this particular position,
                 but that doesn't necessarily mean this is the end. There are many openings at Company and we're always looking
