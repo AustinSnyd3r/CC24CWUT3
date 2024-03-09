@@ -4,10 +4,12 @@ Continuation to further develop the front-end along with implementing a better w
 
 
 Goals:
+
             Create an environment where keeping track of job applications is not a pain. The core idea was to build an application tracker that assisted users by scanning their                Gmail accounts for any updates on their applications and prompting them to make changes to status based on our prediction.
 
          
 Technologies:
+
             AppTrack is built as a Python Flask app, with JavaScript, CSS, HTML assisting with the frontend functionality/design. MySQL is used as the database. 
             
 
