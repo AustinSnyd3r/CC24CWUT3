@@ -98,6 +98,7 @@ let add_application = () => {
             }
             //if response is okay, reload the applications table
             fetch_applications();
+            close();
             return response.text();
         })
         .then(data => {
@@ -155,15 +156,27 @@ let edit_submit = () =>{
 
 
 
+let open = () =>{
+    const add_box = document.getElementById("addTable");
+    add_box.classList.remove("hide");
+}
 
+let close = () =>{
+    const add_box = document.getElementById("addTable");
+    add_box.classList.add("hide");
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     //load the applications on page load
     fetch_applications();
+
+    let open_add = document.getElementById("open_add");
+    open_add.addEventListener("click", open);
+
     let add = document.getElementById("addButton");
-    add.addEventListener("click", add_application)
+    add.addEventListener("click", add_application);
 
     let editSubmit = document.getElementById("editButton");
-    editSubmit.addEventListener("click", edit_submit)
+    editSubmit.addEventListener("click", edit_submit);
 
 });
