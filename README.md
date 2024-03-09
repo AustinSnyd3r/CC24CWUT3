@@ -8,7 +8,6 @@ Goals:
 
          
 Technologies:
-
             AppTrack is built as a Python Flask app, with JavaScript, CSS, HTML assisting with the frontend functionality/design. MySQL is used as the database. 
             
 
